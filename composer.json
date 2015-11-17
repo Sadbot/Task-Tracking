@@ -5,6 +5,10 @@
         {
             "name": "Sem Emelyanov",
             "email": "semen.emelianov@simbirsoft.com"
+        },
+		{
+            "name": "Andrew Cherabaev",
+            "email": "andrei.cherabaev@simbirsoft.com"
         }
     ],
     "require": {
