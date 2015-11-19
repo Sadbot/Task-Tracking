@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="TaskTracker">
+<html ng-app="tt">
     <head>
         <meta charset="utf-8">
         <title>Task Tracker</title>
@@ -13,15 +13,26 @@
     </head>    
     <body >
 
-        <div class="content" ng-controller="FirstCtrl">
+        <div class="content" ng-controller="TaskCtrl">
             Данные получаемые по ссылке http://bitrix.local/tasks: 
             
-            <div ng-repeat="n in data">
+            <div ng-repeat="n in tasks">
                 {{n | json}}
             </div>
             <hr>
-
+            
+            
+            <br/><br/><br/><br/><br/>
+            
+            
+            Данные получаемые по ссылке http://bitrix.local/users 
+            
+            <div ng-repeat="n in users">
+                {{n | json}}
+            </div>
+            <hr>
             <button ng-click="getTask()">get tasks</button>
+            <button ng-click="getUser()">get users</button>
         </div>
 
     </body>
