@@ -1,7 +1,8 @@
 <IfModule mod_rewrite.c>
     Options -MultiViews
+
     RewriteEngine On
-    RewriteBase /var/www/html/web
+    #RewriteBase /path/to/app
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ rest.php [QSA,L]
 </IfModule>

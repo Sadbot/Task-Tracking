@@ -1,32 +1,28 @@
 <!doctype html>
-<html>
+<html ng-app="TaskTracker">
     <head>
         <meta charset="utf-8">
-        <script src="js/angular.min.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/tasklist.js"></script>
-    </head>
-    <body ng-app="TaskTracker">
-        <div ng-controller="TaskList">
-        <ul>
-            <li ng-repeat="task in list">
-                <span> id: {{task.id}}; 
-                    title: {{task.title}}; 
-                    state: {{task.state}};
-                    date: {{task.date}};
-                    customer: {{task.customer}};
-                    performer: {{task.performer}}<a href="#" ng-click="delTask(task.id)">&nbsp;X&nbsp;</a></span>
-            </li>
-        </ul>
-            <form>
-                <input type="text" ng-model="title">
-                <input type="text" ng-model="state">
-                <input type="text" ng-model="date">
-                <input type="text" ng-model="customer">
-                <input type="text" ng-model="performer">
-                <input type="button" ng-click="addTask()" value="Add task">
-            </form>
-        </div>            
+        <title>Task Tracker</title>
+        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
+        <!--<link rel="stylesheet" href="css/app.css">-->
+
+        <script src="node_modules/angular/angular.min.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular.min.js"></script>-->
+        <script src="js/controller.js"></script>
+        
+    </head>    
+    <body >
+
+        <div class="content" ng-controller="FirstCtrl">
+            Данные получаемые по ссылке http://bitrix.local/tasks: 
+            
+            <div ng-repeat="n in data">
+                {{n | json}}
+            </div>
+            <hr>
+
+            <button ng-click="getTask()">get tasks</button>
+        </div>
+
     </body>
-    
 </html>
