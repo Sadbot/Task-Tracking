@@ -1,0 +1,40 @@
+<!doctype html>
+<html ng-app="tt">
+    <head>
+        <meta charset="utf-8">
+        <title>Task Tracker</title>
+        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
+        <!--<link rel="stylesheet" href="css/app.css">-->
+
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controller.js"></script>
+        
+    </head>    
+    <body>
+
+        <div class="content" ng-controller="ObjectProvider">
+            Данные получаемые по ссылке http://site.local/tasks 
+            
+            <div ng-repeat="n in tasks">
+                {{n | json}}
+            </div>
+            <hr>
+            
+            
+            <br/><br/><br/><br/><br/>
+            
+            
+            Данные получаемые по ссылке http://site.local/users
+            
+            <div ng-repeat="n in users">
+                {{n | json}}
+            </div>
+            <hr>
+            <button ng-click="getTasks()">get tasks</button>
+            <button ng-click="getUsers()">get users</button>
+        </div>
+
+    </body>
+</html>

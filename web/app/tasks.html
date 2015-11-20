@@ -1,0 +1,21 @@
+<div class="content" ng-controller="ObjectProvider">
+    Данные получаемые по ссылке http://site.local/tasks 
+
+    <div ng-repeat="n in tasks">
+        {{n| json}}
+    </div>
+    <hr>
+
+
+    <br/><br/><br/><br/><br/>
+
+
+    Данные получаемые по ссылке http://site.local/users
+
+    <div ng-repeat="n in users">
+        {{n| json}}
+    </div>
+    <hr>
+    <button ng-click="getTask()">get tasks</button>
+    <button ng-click="getUser()">get users</button>
+</div>
