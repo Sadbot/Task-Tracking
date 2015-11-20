@@ -1,16 +1,10 @@
 <?php
-
-//Configure DB
-define('DB_TYPE', 'mysql');
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'tt');
-define('DB_USER', 'root');
-define('DB_PASS', '071293');
-
-require_once __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/Database.php';
+$loader = require_once __DIR__ . '/../vendor/autoload.php';
+$loader->addPsr4('DB\\',__DIR__.'/DB');
+require_once __DIR__.'/config.php';
 
 use Silex\Application;
+use DB\Database;
 
 $app = new Application();
 

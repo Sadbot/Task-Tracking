@@ -6,15 +6,16 @@
         <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
         <!--<link rel="stylesheet" href="css/app.css">-->
 
-        <script src="node_modules/angular/angular.min.js"></script>
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular.min.js"></script>-->
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="js/app.js"></script>
         <script src="js/controller.js"></script>
         
     </head>    
-    <body >
+    <body>
 
-        <div class="content" ng-controller="TaskCtrl">
-            Данные получаемые по ссылке http://bitrix.local/tasks: 
+        <div class="content" ng-controller="ObjectProvider">
+            Данные получаемые по ссылке http://site.local/tasks 
             
             <div ng-repeat="n in tasks">
                 {{n | json}}
@@ -25,14 +26,14 @@
             <br/><br/><br/><br/><br/>
             
             
-            Данные получаемые по ссылке http://bitrix.local/users 
+            Данные получаемые по ссылке http://site.local/users
             
             <div ng-repeat="n in users">
                 {{n | json}}
             </div>
             <hr>
-            <button ng-click="getTask()">get tasks</button>
-            <button ng-click="getUser()">get users</button>
+            <button ng-click="getTasks()">get tasks</button>
+            <button ng-click="getUsers()">get users</button>
         </div>
 
     </body>

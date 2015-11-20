@@ -2,36 +2,37 @@
 
     var tt = angular.module('tt', []);
 
-    tt.controller('TaskCtrl', ['$scope', '$http', function ($scope, $http) {
+    tt.controller('ObjectProvider', ['$scope', '$http', function ($scope, $http) {
 
-            $scope.getTask = function () {
+
+            
+            $scope.getTasks = function () {
+                
                 $http({
                     method: 'GET',
                     url: '/tasks'
                 })
                         .then(function (response) {
-                            $scope.status = response.status;
                             $scope.tasks = response.data;
                         }, function (response) {
-                            $scope.tasks = response.data || "Request failed";
-                            $scope.status = response.status;
+                            $scope.tasks = response.data;
                         });
             };
 
-            $scope.getUser = function () {
+            $scope.getUsers = function () {
                 $http({
                     method: 'GET',
                     url: '/users'
                 })
                         .then(function (response) {
-                            $scope.status = response.status;
                             $scope.users = response.data;
                         }, function (response) {
-                            $scope.data = response.data || "Request failed";
-                            $scope.users = response.status;
+                            $scope.users = response.data;
                         });
             };
 
         }]);
+
+    
 
 })();
