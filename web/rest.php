@@ -10,12 +10,16 @@ $app = new Application();
 
 $app['debug'] = true;
 
+
+
 $app->get('/tasks', function (Application $app) {
     
     $db = new Database(DB_TYPE,DB_HOST,DB_NAME,DB_USER,DB_PASS);
     
-    $task = $db->select('SELECT * from tasks');
-
+    $task = $db->select('SELECT id,title,status,created,author,assigner from tasks');
+    
+    
+    
     if (!$task) {
         $error = array('message' => 'The tasks were not found.');
 
@@ -24,21 +28,5 @@ $app->get('/tasks', function (Application $app) {
 
     return $app->json($task);
 });
-
-$app->get('/users', function (Application $app) {
-    
-    $db = new Database(DB_TYPE,DB_HOST,DB_NAME,DB_USER,DB_PASS);
-    
-    $user = $db->select('SELECT * from users');
-
-    if (!$user) {
-        $error = array('message' => 'The users were not found.');
-
-        return $app->json($error, 404);
-    }
-
-    return $app->json($user);
-});
-
 
 $app->run();

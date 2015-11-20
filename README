@@ -1,0 +1,3 @@
+mysqldump: tt.sql в корневой директории
+config.php настройки подключения к БД
+apache: 
