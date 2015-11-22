@@ -1,0 +1,107 @@
+html, body {
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+table {
+    text-align: center; 
+    width:100%;}
+
+input[type=text] {
+    width:100%;
+    height: 28px;
+    border-width:  0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #888;
+}
+
+select {
+    width:100%;
+    height: 32px;
+    background-color: #cfcfcf;
+    border-width: 0px;
+    text-align: center;
+    color: #000;
+    font-family: sans-serif;
+    font-size: 20px;
+    /*disable std arrow appearance*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none!important;
+    background-image: url('drop_down.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+input[type=button], button{
+    font-size: 28px;
+    text-align: center;
+    width: 32px;
+    height:32px;
+    padding:0px;
+    border-radius:16px;
+    border-width:0px;
+    background-color: #cfcfcf;
+
+}
+input[type=button].check, button.check{
+    background-image: url('check.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+input[type=button].clear, button.clear{
+    background-image: url('clear.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius:16px;
+}
+
+
+input[type=button].add, button.add{
+    background-image: url('add.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+input[type=button].add[disabled], button.add[disabled]{
+    background-color: #f0f0f0;
+}
+
+tr.sort td{
+    background-color: #cfcfcf;
+    background-image: url('sort.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    font-size: 20px;
+    height:32px;
+}
+
+tr.filter input{
+    background-color: #cfcfcf;
+    border-radius: 0px;
+    background-image: url('filter_list.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    color: #000;
+    font-size: 20px;
+    
+    height:30px;
+}
+
+
+input[type=button].switch, button.switch{
+    font-size: 20px;
+    text-align: left;
+    width: 128px;
+    height:32px;
+    padding:0px;
+    border-radius:0px;
+    border-width:0px;
+    background-color: #cfcfcf;
+    background-image: url('swap_horiz.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
