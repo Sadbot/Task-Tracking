@@ -1,17 +1,14 @@
 (function () {
 
-    var tt = angular.module('tt', []);
+    var tt = angular.module('TaskTracker', []);
 
-    tt.controller('ObjectProvider', ['$scope', '$http', function ($scope, $http) {
+    tt.controller('TaskCtrl', ['$scope', '$http', function ($scope, $http) {
 
 
             
             $scope.getTasks = function () {
                 
-                $http({
-                    method: 'GET',
-                    url: '/tasks'
-                })
+                $http.get('/tasks')
                         .then(function (response) {
                             $scope.tasks = response.data;
                         }, function (response) {
@@ -20,10 +17,7 @@
             };
 
             $scope.getUsers = function () {
-                $http({
-                    method: 'GET',
-                    url: '/users'
-                })
+                $http.get('/users')
                         .then(function (response) {
                             $scope.users = response.data;
                         }, function (response) {

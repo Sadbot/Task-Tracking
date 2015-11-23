@@ -1,15 +1,17 @@
-var tt = angular.module('tt', []);
+var tt = angular.module('tt', ['ngRoute', 'ngStorage']);
 
-tt.controller('TaskVisual', ['$scope', function ($scope, $http) {
-        $scope.show=true;
-        $scope.users = [{
-                login: "admin",
-                hash: "d033e22ae348aeb5660fc2140aec35850c4da997",
-                is_deleted: 0},
-            {
-                login: "sem",
-                hash: "335f62dde484a61575f6b10abd004e92ff6a770d",
-                is_deleted: 0}];
+tt.controller('TaskVisual', ['$scope', '$http', '$localStorage', function ($scope, $http, $localStorage) {
+        
+        $scope.show = true;
+        $scope.users = [];
+        /*{
+         login: "admin",
+         hash: "d033e22ae348aeb5660fc2140aec35850c4da997",
+         is_deleted: 0},
+         {
+         login: "sem",
+         hash: "335f62dde484a61575f6b10abd004e92ff6a770d",
+         is_deleted: 0}*/
 
         $scope.addUser = function () {
             var hash = '';
@@ -19,46 +21,48 @@ tt.controller('TaskVisual', ['$scope', function ($scope, $http) {
             }
             ;
             $scope.users.push({
+                id: 0,
                 login: $scope.login,
-                hash: hash,
-                is_deleted: 0});
+                pass: hash,
+                is_deleted: 0,
+                role: 0});
         };
 
 
 
-        $scope.tasks = [{
-                id: 4,
-                title: "test1",
-                state: "1",
-                date: new Date("11 08 2015 13:45:13"),
-                autor: "1",
-                assigner: "1"},
-            {
-                id: 7,
-                title: "test2",
-                state: "0",
-                date: new Date("11 18 2015 12:32:06"),
-                autor: "1",
-                assigner: "1"}];
+        $scope.tasks = [];
+        /*{
+         id: 4,
+         title: "test1",
+         state: "1",
+         date: new Date("11 08 2015 13:45:13"),
+         autor: "1",
+         assigner: "1"},
+         {
+         id: 7,
+         title: "test2",
+         state: "0",
+         date: new Date("11 18 2015 12:32:06"),
+         autor: "1",
+         assigner: "1"}*/
 
         $scope.title = "testN";
-        $scope.state = "1";
+        $scope.status = "1";
         $scope.login = "andrew";
         $scope.password = "password";
         var i = 0;
         $scope.addTask = function () {
             $scope.tasks.push({
                 id: i++,
-                name: $scope.name,
                 title: $scope.title,
-                date: new Date(),
-                state: $scope.state,
-                autor: $scope.autor,
+                created: new Date(),
+                status: $scope.status,
+                author: $scope.author,
                 assigner: $scope.assigner});
         };
 
         $scope.isDisabled = function () {
-            return (!$scope.assigner || !$scope.autor || !$scope.title);
+            return (!$scope.assigner || !$scope.author || !$scope.title);
         };
 
         $scope.delTask = function (index) {
@@ -68,20 +72,49 @@ tt.controller('TaskVisual', ['$scope', function ($scope, $http) {
         $scope.delUser = function (index) {
             $scope.users[index].is_deleted = 1;
         };
+
+        $scope.getTasks = function () {
+            $http.get('/tasks')
+                    .then(function (response) {
+                        $scope.tasks = response.data;
+                    }, function (response) {
+                        $scope.tasks = response.data;
+                    });
+        };
+
+        $scope.getUsers = function () {
+            $http.get('/users')
+                    .then(function (response) {
+                        $scope.users = response.data;
+                    }, function (response) {
+                        $scope.users = response.data;
+                    });
+        };
     }]);
-
-tt.directive('showTasks', function() {
-	return {
-		restrict: 'A',
-		templateUrl: 'templates/tasks.tpl.html',
-		replace: true
-	}
+/*tt.directive('showTasks', function () {
+    return {
+        restrict: 'A',
+        templateUrl: 'templates/tasks.tpl.html',
+        replace: true
+    };
 });
 
-tt.directive('showUsers', function() {
-	return {
-		restrict: 'A',
-		templateUrl: 'templates/users.tpl.html',
-		replace: true
-	}
-});
+tt.directive('showUsers', function () {
+    return {
+        restrict: 'A',
+        templateUrl: 'templates/users.tpl.html',
+        replace: true
+    };
+});*/
+tt.config(['$routeProvider', function ($routeProvider) {
+        $routeProvider
+                .when('/tasks', {
+                    templateUrl: 'templates/tasks.tpl.html',
+                    controller: 'TaskVisual'
+                })
+                .when('/users', {
+                    templateUrl: 'templates/users.tpl.html',
+                    controller: 'TaskVisual'
+                })
+                .otherwise({redirectTo: '/tasks'});
+    }]);
