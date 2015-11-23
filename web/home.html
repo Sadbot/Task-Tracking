@@ -1,0 +1,13 @@
+Данные получаемые по ссылке http://site.local/tasks
+
+<div ng-repeat="task in tasks" >
+    {{task}}
+</div>
+
+<button ng-click="getTasks()">get tasks</button>
+
+<button ng-click="putTasks()">put task</button>
+<br>
+
+
+id to delete:<input type="text" ng-model="current_id"/><button ng-click="delTask(current_id)">Delete task</button>
