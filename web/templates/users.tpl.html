@@ -1,4 +1,4 @@
-
+<input type="button" ui-sref="tasks" value="Watch tasks" class="switch">
 <table>
     <thead>
         <tr class="filter sort">
@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" ng-hide="user.is_deleted == 0">
+        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" ng-show="user.is_deleted == 0">
             <td>
                 {{user.login}}
             </td>
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>
-            <input class="switch" type="button" ng-click="getUsers()">
+            <input class="switch" type="button" ng-click="getUsers()" value="getUsers()">
             </td>
         </tr>
     </tbody>

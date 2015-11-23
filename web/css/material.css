@@ -94,7 +94,7 @@ tr.filter input{
 input[type=button].switch, button.switch{
     font-size: 20px;
     text-align: left;
-    width: 128px;
+    width: 160px;
     height:32px;
     padding:0px;
     border-radius:0px;

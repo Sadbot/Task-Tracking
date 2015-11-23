@@ -1,17 +1,15 @@
-var tt = angular.module('tt', ['ngRoute', 'ngStorage']);
+var tt = angular.module('tt', ['ui.router']);
 
-tt.controller('TaskVisual', ['$scope', '$http', '$localStorage', function ($scope, $http, $localStorage) {
-        
+tt.controller('TaskVisual', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
-        $scope.users = [];
-        /*{
+        $scope.users = [{
          login: "admin",
-         hash: "d033e22ae348aeb5660fc2140aec35850c4da997",
+         pass: "d033e22ae348aeb5660fc2140aec35850c4da997",
          is_deleted: 0},
          {
          login: "sem",
-         hash: "335f62dde484a61575f6b10abd004e92ff6a770d",
-         is_deleted: 0}*/
+         pass: "335f62dde484a61575f6b10abd004e92ff6a770d",
+         is_deleted: 0}];
 
         $scope.addUser = function () {
             var hash = '';
@@ -30,8 +28,7 @@ tt.controller('TaskVisual', ['$scope', '$http', '$localStorage', function ($scop
 
 
 
-        $scope.tasks = [];
-        /*{
+        $scope.tasks = [{
          id: 4,
          title: "test1",
          state: "1",
@@ -44,7 +41,7 @@ tt.controller('TaskVisual', ['$scope', '$http', '$localStorage', function ($scop
          state: "0",
          date: new Date("11 18 2015 12:32:06"),
          autor: "1",
-         assigner: "1"}*/
+         assigner: "1"}];
 
         $scope.title = "testN";
         $scope.status = "1";
@@ -106,15 +103,17 @@ tt.directive('showUsers', function () {
         replace: true
     };
 });*/
-tt.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider
-                .when('/tasks', {
-                    templateUrl: 'templates/tasks.tpl.html',
-                    controller: 'TaskVisual'
+tt.config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise("/tasks");
+        $stateProvider
+                .state('tasks', {
+                    url: "/tasks",
+                    templateUrl: "templates/tasks.tpl.html"//,
+                    //controller: "TaskVisual"
                 })
-                .when('/users', {
-                    templateUrl: 'templates/users.tpl.html',
-                    controller: 'TaskVisual'
-                })
-                .otherwise({redirectTo: '/tasks'});
-    }]);
+                .state('users', {
+                    url: "/users",
+                    templateUrl: "templates/users.tpl.html"//,
+                    //controller: "TaskVisual"
+                });
+    });

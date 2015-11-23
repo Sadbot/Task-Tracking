@@ -7,26 +7,25 @@
         <link rel="stylesheet" href="css/material.css">
 
         <script src="node_modules/angular/angular.js"></script>
-        <!--        <script src="js/angular-ui-router.min.js"></script>-->
+        <script src="js/angular-ui-router.min.js"></script>
         <!--<script src="node_modules/angular-route/angular-route.js"></script>-->
-        <script src="js/ngRoute.js"></script>        
-        <script src="js/ngStorage.js"></script>         
-                КОНТРОЛЛЕР ОТВЕЧАЕТ ТОЛЬКО ЗА ОТРИСОВКУ.
-                ВНУТРЕННЕ ИМЯ: TaskVisual                                               
+<!--        <script src="js/ngRoute.js"></script>        
+        <script src="js/ngStorage.js"></script>         -->
+<!--                КОНТРОЛЛЕР ОТВЕЧАЕТ ТОЛЬКО ЗА ОТРИСОВКУ.
+                ВНУТРЕННЕ ИМЯ: TaskVisual                                               -->
         <script src="js/TaskVisual.js"></script>
 
     </head>   
     <body ng-app="tt">
         <div ng-controller="TaskVisual">
-            <input type="button" ng-click="show=!show" value="Next" class="switch">
-            <div ng-view></div>
+            
+            <div ui-view></div>
 <!--            <div ng-show="show==true">
                 <div show-tasks></div>
             </div>
             <div ng-show="show==false">
                 <div show-users></div>
             </div>-->
-            
         </div>            
     </body>
 </html>
