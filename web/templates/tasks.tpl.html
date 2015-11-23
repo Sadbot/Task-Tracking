@@ -31,7 +31,7 @@
                 {{task.title}}
             </td>
             <td>
-                {{task.created| date:"d MMM yyyy H:mm"}}
+                {{task.created | date:"d MMM yyyy H:mm"}}
             </td>
             <td>
                 {{users[task.author].login}}
@@ -52,12 +52,12 @@
 
             </td>
             <td>
-                <select ng-model="author">
+                <select ng-model="tauthor">
                     <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
             <td>
-                <select ng-model="assigner">
+                <select ng-model="tassigner">
                     <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
@@ -71,7 +71,7 @@
             <td></td>
             <td></td>
             <td>
-                <input type="button" ng-click="addTask()" ng-disabled="isDisabled()" class="add">
+                <input type="button" ng-click="addTask()" class="add">
             </td>
         </tr>
     </tbody>
