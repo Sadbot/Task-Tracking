@@ -1,3 +1,5 @@
-/nbproject/private/
+/nbproject/
 /vendor/*/*
-/web/node_modules
+/web/node_modules/
+/.project
+/.idea

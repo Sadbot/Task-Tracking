@@ -4,5 +4,12 @@
     RewriteEngine On
     #RewriteBase /path/to/app
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ rest.php [QSA,L]
+    RewriteRule ^ api/rest.php [QSA,L]
 </IfModule>
+
+
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ api/rest.php [QSA,L]

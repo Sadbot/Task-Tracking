@@ -1,3 +1,15 @@
-mysqldump: tt.sql в корневой директории
-config.php настройки подключения к БД
-apache: 
+Installation instructions:
+
+Install composer, npm. Fork this code.
+Install silex with command:
+    composer install silex/silex
+Install angularjs in /web directory with command:
+    npm install angularjs
+
+Next install mysql or another DB that PHP:PDO(more info: http://php.net/manual/ru/book.pdo.php) can connect.
+    resource sqldump in tt.sql file
+
+Don't forget to edit DB connector configuration in api/config.php
+
+Install security component
+    composer require symfony/security
