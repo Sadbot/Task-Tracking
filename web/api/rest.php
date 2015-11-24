@@ -146,15 +146,15 @@ $app->delete('/deltask/{id}', function (Application $app, $id) {
  */
 $app->get('/getusers', function (Application $app) {
 
-    $task = $app['db']->select('SELECT id,login,pass from users');
+    $users = $app['db']->select('SELECT id,login,pass,is_deleted,role from users');
 
-    if (!$task) {
-        $error = array('message' => 'The users were not found.');
+    if (!$users) {
+        $error = array('error' => 'The users were not found.');
 
         return $app->json($error, 404);
     }
 
-    return $app->json($task);
+    return $app->json($users,200);
 });
 
 $app->put('/putuser', function (Request $request) use ($app) {
