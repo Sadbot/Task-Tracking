@@ -38,10 +38,10 @@
     </tbody>
 </table>
 
-<form>
+<form ng-submit="putUser(curUser)">
     <input type="text" ng-model="curUser.login"/>
     <input type="password" ng-model="curUser.pass"/>
-    
+    <input type="submit" value="submit"/>
 </form>
 
 </div>

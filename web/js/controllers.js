@@ -4,7 +4,7 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
 
         $scope.isDisabled = function () {
-            return (!$scope.title || !$scope.assigner || !$scope.author);
+            return (!$scope.curTask.title || !$scope.curTask.assigner || !$scope.curTask.author);
         };
 
         $scope.curTask = {};
@@ -73,7 +73,7 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
         };
 
         $scope.putUser = function (curUser) {
-            $http.put('/api/putuser', curTask)
+            $http.put('/api/putuser', curUser)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
@@ -86,7 +86,7 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
         };
 
         $scope.delUser = function (current_id) {
-            $http.delete('/api/deltask/' + current_id)
+            $http.delete('/api/deluser/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
@@ -114,11 +114,12 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', function ($scop
                     .success(function (data, status) {
                         $cookies.put('login',data.login);
                         $cookies.put('_token',data._token);
+                        $cookies.put('role',data.role);
                     })
                     .error(function (data, status) {
                         $scope.data = data || "Request failed";
                     });
-        }
+        };
     }]);
 
 tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
