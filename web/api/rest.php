@@ -88,7 +88,7 @@ $app->put('/puttask', function (Request $request) use ($app) {
       'title'  => $request->get('title'),
       'assigner'  => $request->get('assigner'),
       'author'  => $request->get('author'),
-      'created'  => mktime(),
+      'created'  => date('Y-m-d H:i:s'),
       'status'  => 1,
     );
     
