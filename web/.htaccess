@@ -8,8 +8,8 @@
 </IfModule>
 
 
-RewriteEngine On
-RewriteCond %{HTTP:Authorization} ^(.+)$
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ api/rest.php [QSA,L]
+#RewriteEngine On
+#RewriteCond %{HTTP:Authorization} ^(.+)$
+#RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.*)$ api/rest.php [QSA,L]
