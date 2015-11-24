@@ -107,6 +107,7 @@ $app->put('/puttask', function (Request $request) use ($app) {
     $task = $request->request->all();
     
     $task = array(
+
       'title'  => htmlspecialchars($request->get('title')),
       'assigner'  => (int)$request->get('assigner'),
       'author'  => (int)$request->get('author'),
