@@ -1,0 +1,13 @@
+<?php
+define('DB_TYPE', 'mysql');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'tt');
+define('DB_USER', 'root');
+<<<<<<< HEAD:web/api/config.php
+define('DB_PASS', '071293');
+
+
+
+=======
+define('DB_PASS', 'password');
+>>>>>>> origin/front_test:web/config.php

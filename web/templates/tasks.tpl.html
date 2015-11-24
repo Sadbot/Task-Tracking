@@ -1,0 +1,78 @@
+<input type="button" ui-sref="users" value="Watch users" class="switch">
+<table>
+    <thead>
+        <tr class="filter">
+            <td><input type='text' ng-model="Tsearch.title" placeholder="Search by title" /></td>
+            <td><input type='text' ng-model="Tsearch.date" placeholder="Search by date"/></td>
+            <td>
+                <select ng-model="Tsearch.author" ng-init="0" placeholder="users">
+                    <option value="">***</option>
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+            </td>
+            <td>
+                <select ng-model="Tsearch.assigner" ng-init="0" >
+                    <option value="">***</option>
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+            </td>
+            <td><input type="button" class="clear"></td>
+        </tr>
+        <tr class="sort">
+            <td ng-click="TsortType = 'title'; TsortReverse = !TsortReverse">title</td>
+            <td ng-click="TsortType = 'created'; TsortReverse = !TsortReverse">date</td>
+            <td ng-click="TsortType = 'author'; TsortReverse = !TsortReverse">author</td>
+            <td ng-click="TsortType = 'assigner'; TsortReverse = !TsortReverse">assigner</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="task in tasks| filter : Tsearch | orderBy: TsortType: TsortReverse" ng-hide="task.status == 0">
+            <td> 
+                {{task.title}}
+            </td>
+            <td>
+                {{task.created | date:"d MMM yyyy H:mm"}}
+            </td>
+            <td>
+                {{users[task.author].login}}
+            </td>
+            <td>
+                {{users[task.assigner].login}}
+            </td>
+            <td>
+                <input type="button" ng-click="delTask($index)" class="check">
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="text" ng-model="title" placeholder="Add task title">
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <select ng-model="tauthor">
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+            </td>
+            <td>
+                <select ng-model="tassigner">
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input class="switch" type="button" ng-click="getTasks()" value="getTasks()">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" ng-click="addTask()" class="add">
+            </td>
+        </tr>
+    </tbody>
+</table>

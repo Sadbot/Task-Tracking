@@ -6,23 +6,51 @@
         <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
         <link rel="stylesheet" href="css/material.css">
 
+<<<<<<< HEAD
 
+        
+    </head>    
+    <body ng-controller="TaskController">
+
+
+
+        <div class="content" >
+
+            Данные получаемые по ссылке http://site.local/tasks
+
+            <div ng-repeat="task in tasks" >
+                {{task}}
+            </div>
+
+            <button ng-click="getTasks()">get tasks</button>
+
+            <button ng-click="putTasks()">put task</button>
+            <br>
+
+
+            id to delete:<input type="text" ng-model="current_id"/><button ng-click="delTask(current_id)">Delete task</button>
+
+        </div>
+
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+
+        <script src="js/controller.js"></script>
+
+=======
+        <script src="node_modules/angular/angular.js"></script>
         <script src="js/angular-ui-router.min.js"></script>
         <!--<script src="node_modules/angular-route/angular-route.js"></script>-->
 <!--        <script src="js/ngRoute.js"></script>        
-        <script src="node_modules/angular-route/angular-route.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/controller.js"></script>
         <script src="js/ngStorage.js"></script>         -->
 <!--                КОНТРОЛЛЕР ОТВЕЧАЕТ ТОЛЬКО ЗА ОТРИСОВКУ.
                 ВНУТРЕННЕ ИМЯ: TaskVisual                                               -->
         <script src="js/TaskVisual.js"></script>
 
     </head>   
-    <body ng-controller="TaskController">
-
-            <br>
-
+    <body ng-app="tt">
+        <div ng-controller="TaskVisual">
+            
             <div ui-view></div>
 <!--            <div ng-show="show==true">
                 <div show-tasks></div>
@@ -31,10 +59,6 @@
                 <div show-users></div>
             </div>-->
         </div>            
-
-        <script src="node_modules/angular/angular.js"></script>
-        <script src="node_modules/angular-route/angular-route.js"></script>
-
-        <script src="js/controller.js"></script>
+>>>>>>> origin/front_test
     </body>
 </html>
