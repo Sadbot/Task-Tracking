@@ -41,7 +41,7 @@
                 {{task.title}}
             </td>
             <td>
-                {{task.created| date:"d MMM yyyy H:mm"}}
+                {{task.created}}
             </td>
             <td>
                 {{task.author}}
@@ -50,7 +50,7 @@
                 {{task.assigner}}
             </td>
             <td>
-                <input type="button" ng-click="delTask(task.id)" class="check">
+                <input type="button" ng-click="delTask(task.id); getTasks()" class="check">
             </td>
 
         </tr>
@@ -71,11 +71,11 @@
     </tbody>
 </table>
 
-<form ng-submit="putTask(curTask)">
+<form ng-submit="putTask(curTask); getTasks()">
     <input type="text" ng-model="curTask.title" placeholder="Add task title">
     <select ng-options="user.id as user.login for user in users" ng-model="curTask.author"></select>
     <select ng-options="user.id as user.login for user in users" ng-model="curTask.assigner"></select>
-    <input type="submit" value="Put task" />
+    <input type="submit" value="Put task" ng-disabled="isDisabled()"/>
 </form>
 
 
