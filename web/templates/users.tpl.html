@@ -1,0 +1,38 @@
+<input type="button" ui-sref="tasks" value="Watch tasks" class="switch">
+<table>
+    <thead>
+        <tr class="filter sort">
+            <td colspan="2"><input type='text' ng-model="Usearch.login" placeholder="Search by login" /></td>
+            <td ng-click="UsortType = 'login'; UsortReverse = !UsortReverse" colspan="2" class="buttons"></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" ng-show="user.is_deleted == 0">
+            <td>
+                {{user.login}}
+            </td>
+            <td>
+                {{user.pass}}
+            </td>
+            <td>
+                <input type="button" ng-click="delUser($index)" class="check buttons">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" ng-model="newUser.login" placeholder="Add username">
+            </td>
+            <td>
+                <input type="text" ng-model="pass" placeholder="Password">
+            </td>
+            <td>
+                <input type="button" ng-click="addUser()" class="add buttons">
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <input class="switch" type="button" ng-click="getUsers()" value="getUsers()">
+            </td>
+        </tr>
+    </tbody>
+</table>

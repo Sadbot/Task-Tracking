@@ -1,0 +1,147 @@
+<!doctype html>
+<html >
+    <head>
+        <meta charset="utf-8">
+        <title>Task Tracker</title>
+        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
+        <!--<link rel="stylesheet" href="css/app.css">-->
+
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="js/angular-ui-router.min.js"></script>
+        <!--<script src="node_modules/angular-route/angular-route.js"></script>-->
+        <!--<script src="js/app.js"></script>-->        
+<!--       
+        КОНТРОЛЛЕР ОТВЕЧАЕТ ТОЛЬКО ЗА ОТРИСОВКУ.
+        ВНУТРЕННЕ ИМЯ: TaskVisual                                               -->
+        <script src="js/TaskVisual.js"></script>
+        
+    </head>   
+<body ng-app="tt">
+        <div ng-controller="TaskVisual">
+            <div ui-view></div>
+            users:
+            <ol>
+                <li ng-repeat="user in users">{{user.login}}:{{$index}}</li>
+            </ol>
+            <form>
+                <input type="text" ng-model="login">
+                <input type="text" ng-model="password">
+                <input type="button" ng-click="addUser()" value="Add user">
+            </form>
+            tasks:
+            Search: 
+            <table style="border: 1px solid #000; text-align: center">
+                <thead>
+                    <tr>
+                        <td><input ng-model="search.title"/></td>
+                        <td><input ng-model="search.date"/></td>
+<!--                        <td><input ng-model="search.autor"/></td>
+                        <td><input ng-model="search.assigner"/></td>-->
+<td>
+                <select ng-model="search.autor" ng-init="0" placeholder="users" style="width:100%">
+                    <option value="">***</option>
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+                    </td>
+                    <td>
+                <select ng-model="search.assigner" ng-init="0" style="width:100%">
+                    <option value="">***</option>
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+                    </td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <td><a ng-click="sortType = 'title'; sortReverse=!sortReverse">title&ReverseUpEquilibrium;</a></td>
+                        <td><a ng-click="sortType = 'date'; sortReverse=!sortReverse">date&ReverseUpEquilibrium;</a></td>
+                        <td><a ng-click="sortType = 'autor'; sortReverse=!sortReverse">autor&ReverseUpEquilibrium;</a></td>
+                        <td><a ng-click="sortType = 'assigner'; sortReverse=!sortReverse">assigner&ReverseUpEquilibrium;</a></td><td></td></tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="task in tasks | filter : search | orderBy: sortType: sortReverse" style="border: 1px solid #000" ng-hide="task.state==0">
+                <td> 
+<!--                    {{$index}}id{{task.id}}:-->
+                    {{task.title}}
+                </td>
+                <td>
+                    {{task.date | date:"d MMM yyyy H:mm"}}
+                </td>
+                <td>
+                    {{task.autor}}[{{users[task.autor].login}}]
+                </td>
+                <td>
+                    {{task.assigner}}[{{users[task.assigner].login}}]
+                </td>
+                <td>
+                    <!--div style="width:28px;height:28px;padding:0px;margin:0px;border-radius:13px;border-width:1px">
+                    <a style="cursor:pointer" ng-click="" style="align:center">&nbsp;&nbsp;</a>
+                    </div-->
+                    <input type="button" ng-click="delTask($index)" value="&check;" 
+                       style="width:32px;height:32px;padding:0px;border-radius:16px;border-width:0px">
+                </td>
+                
+            </tr>
+            
+            
+            
+<!--            ФОРМА ДЛЯ ЗАДАНИЯ ЗАДАНИЯ   -->
+<!--            хм. каламбур.               -->
+                <tr>
+                    <td>
+                <input type="text" ng-model="title" style="width:100%">
+                    </td>
+                    <td></td>
+<!--                <select type="text" ng-model="state">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>   -->
+                    <td>
+                <select ng-model="autor" ng-init="0" placeholder="users" style="width:100%">
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+                    </td>
+                    <td>
+                        <select ng-model="assigner" ng-init="0" style="width:100%">
+                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
+                </select>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                    <td>
+                <input type="button" ng-click="addTask()" ng-disabled="isDisabled()" value="&plus;" 
+                       style="width:32px;height:32px;padding:0px;border-radius:16px;border-width:0px">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+<!--            <table style="border: 1px solid #000; text-align: center; float: right; position: fixed">
+                <thead>
+                    <tr><td>title</td><td>state</td><td>date</td><td>autor</td><td>assigner</td></tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="task in tasks" style="border: 1px solid #000">
+                <td> 
+                    {{$index}}id{{task.id}}:
+                    {{task.title}}
+                </td>
+                <td>{{task.state}}
+                <td>
+                    {{task.date | date:"d MMM yyyy H:mm"}}
+                </td>
+                <td>
+                    {{task.autor}}[{{users[task.autor].login}}]
+                </td>
+                <td>
+                    {{task.assigner}}[{{users[task.assigner].login}}]
+                </td>
+                
+            </tr>
+                </tbody>
+            </table>-->
+        </div>            
+    </body>
+</html>

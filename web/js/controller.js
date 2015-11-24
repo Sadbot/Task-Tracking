@@ -1,9 +1,9 @@
-(function () {
-
-    var tt = angular.module('tt', []);
-
+//var tt = angular.module('tt', []);
+//
+//    tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
+//
     tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
-
+//
             $scope.current_id = 0;
 
             $scope.newtask = [{
