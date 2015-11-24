@@ -17,38 +17,13 @@ $app['debug'] = true;
 
 $app['db'] = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
 
-//$app->register(new Silex\Provider\SecurityServiceProvider(), array(
-//    'security.firewalls' => array(
-//        'default' => array(
-//            'pattern' => '^.*$',
-//            'anonymous' => true, // Needed as the login path is under the secured area
-//            'form' => array('login_path' => '/login', 'check_path' => 'login_check'),
-//            'logout' => array('logout_path' => '/logout'), // url to call for logging out
-//            'users' => $app->share(function() use ($app) {
-//                // Specific class App\User\UserProvider is described below
-//                return new App\User\UserProvider($app['db']);
-//            }),
-//        ),
-//    ),
-//));
-//
-//$app['security.firewalls'] = array(
-//    'admin' => array(
-//        'pattern' => '^/admin',
-//        'http' => true,
-//        'users' => array(
-//            // raw password is foo
-//            'admin' => array('ROLE_ADMIN', '1234'),
-//        ),
-//    ),
-//);
-
-//$app->boot();
+/*
+ * Login Controller
+ */
 
 $app->post('/auth', function (Request $request) use ($app) {
     $user = $request->request->all();
 
-//    return new \Symfony\Component\HttpFoundation\Response(var_dump($user));
     $username = strtolower($user['user']);
     $password = sha1($user['pass']);
 
@@ -63,7 +38,7 @@ $app->post('/auth', function (Request $request) use ($app) {
 
     return $app->json(array(
         'login' => $username,
-        'pass'  => $password),201);
+        '_token'  => $password), 201);
 });
 
 $app->get('/account', function () use ($app) {
@@ -76,7 +51,7 @@ $app->get('/account', function () use ($app) {
 
 
 /*
- * Angular
+ * Accepting a JSON Request Body
  */
 $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
@@ -87,7 +62,7 @@ $app->before(function (Request $request) {
 });
 
 /*
- *  Task Routing
+ *  Task Controller
  */
 $app->get('/gettasks', function (Application $app) {
 
@@ -142,7 +117,7 @@ $app->delete('/deltask/{id}', function (Application $app, $id) {
 });
 
 /*
- * Users Route
+ * Admin Controller
  */
 $app->get('/getusers', function (Application $app) {
 

@@ -10,6 +10,3 @@ Next install mysql or another DB that PHP:PDO(more info: http://php.net/manual/r
     resource sqldump in tt.sql file
 
 Don't forget to edit DB connector configuration in api/config.php
-
-Install security component
-    composer require symfony/security
