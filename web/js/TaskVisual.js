@@ -2,19 +2,8 @@ var tt = angular.module('tt', ['ui.router']);
 
 tt.controller('TaskVisual', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
-        $scope.users = [{
-                id: '',
-                login: "admin",
-                pass: "d033e22ae348aeb5660fc2140aec35850c4da997",
-                is_deleted: 0,
-                role: 0},
-            {
-                id: '',
-                login: "sem",
-                pass: "335f62dde484a61575f6b10abd004e92ff6a770d",
-                is_deleted: 0,
-                role: 0}];
-        
+
+
         $scope.addUser = function () {
             var hash = '';
             symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
@@ -30,93 +19,73 @@ tt.controller('TaskVisual', ['$scope', '$http', function ($scope, $http) {
                 role: 0});
         };
 
-
-
-        $scope.tasks = [{
-                id: 4,
-                title: "test1",
-                status: 1,
-                created: new Date("11 08 2015 13:45:13"),
-                author: 1,
-                assigner: 1},
-            {
-                id: 7,
-                title: "test2",
-                status: 0,
-                created: new Date("11 18 2015 12:32:06"),
-                author: 1,
-                assigner: 1}];
-
         $scope.isDisabled = function () {
             return (!$scope.title || !$scope.assigner || !$scope.author);
         };
 
-        //$scope.title = "testN";
-        //$scope.status = "1";
-        //$scope.login = "andrew";
-        //$scope.password = "password";
-        var i = 0;
-        var newTask;
-        newTask={id: ++i,
-                title: $scope.title,
-                created: new Date(),
-                status: 1,
-                author: $scope.author,
-                assigner: $scope.assigner};
-        $scope.addTask = function () {
-            $scope.tasks.push(newTask);
+        $scope.curTask = {};
+
+        $scope.getTasks = function () {
+
+            $http.get('/api/gettasks')
+                    .success(function (data, status) {
+                        $scope.tasks = data.tasks;
+                        $scope.users = data.users;
+                        $scope.status = status;
+                    })
+                    .error(function (data, status) {
+                        $scope.tasks = data || "Request failed";
+                        $scope.status = status;
+                    });
         };
 
-
-
-        $scope.delTask = function (index) {
-            $scope.tasks[index].status = 0;
+        $scope.putTask = function (curTask) {
+            $http.put('/api/puttask', curTask)
+                    .success(function (data, status) {
+                        $scope.data = data;
+                        $scope.status = status;
+                    })
+                    .error(function (data, status) {
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
+                    });
+            $scope.curTask = {};
         };
 
-        $scope.delUser = function (index) {
-            $scope.users[index].is_deleted = 1;
+        $scope.delTask = function (current_id) {
+            $http.delete('/api/deltask/' + current_id)
+                .success(function (data, status) {
+                    $scope.data = data;
+                    $scope.status = status; 
+                })
+                .error(function (data, status) {
+                    $scope.data = data || "Request failed";
+                    $scope.status = status;
+                });
         };
-        /*
-         $scope.getTasks = function () {
-         $http.get('/tasks')
-         .then(function (response) {
-         $scope.tasks = response.data;
-         }, function (response) {
-         $scope.tasks = response.data;
-         });
-         };
-         
-         $scope.getUsers = function () {
-         $http.get('/users')
-         .then(function (response) {
-         $scope.users = response.data;
-         }, function (response) {
-         $scope.users = response.data;
-         });
-         };
-         */
+
     }]);
 
-tt.controller('LoginController', ['$scope','$http',function($scope, $http){
+tt.controller('LoginController', ['$scope', '$http', function ($scope, $http) {
         $scope.user = '';
         $scope.pass = '';
 
-        $scope.authUser = function (user,pass) {
+        $scope.authUser = function (user, pass) {
 
             var userdata = new Object({
                 user: user,
                 pass: pass
             });
 
-            $http.post('/api/auth',angular.toJson(userdata))
-                .success(function (data, status) {
-                    $scope.data = data;
-                    $scope.status = status;
-                })
-                .error(function (data, status) {
-                    $scope.data = data || "Request failed";
-                    $scope.status = status;
-                });
+            $http.post('/api/auth', angular.toJson(userdata))
+                    .success(function (data, status) {
+                        $scope.data = data;
+                        $scope.status = status;
+                    })
+                    .error(function (data, status) {
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
+                    });
         };
     }]);
 
@@ -133,7 +102,7 @@ tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $ur
                     templateUrl: "templates/users.tpl.html"//,
 //                    controller: "TaskVisual"
                 })
-                .state('login',{
+                .state('login', {
                     url: "/login",
                     templateUrl: "templates/login.tpl.html",
                     controller: "LoginController"

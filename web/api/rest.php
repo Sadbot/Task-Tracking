@@ -91,31 +91,40 @@ $app->before(function (Request $request) {
  */
 $app->get('/gettasks', function (Application $app) {
 
-    $task = $app['db']->select('SELECT id,title,status,created,author,assigner from tasks');
+    $tasks = $app['db']->select('SELECT id,title,status,created,author,assigner from tasks');
+    $users = $app['db']->select('SELECT id, login from users');
 
-    if (!$task) {
+    if (!$tasks and !$users) {
         $error = array('message' => 'The tasks were not found.');
-
         return $app->json($error, 404);
     }
 
-    return $app->json($task);
+    return $app->json(array(
+        'users' => $users,
+        'tasks' => $tasks,
+    ), 200);
 });
 
 $app->put('/puttask', function (Request $request) use ($app) {
 
     $task = $request->request->all();
-
-    $result = $app['db']->insert('tasks', $task[0]);
+    
+    $task = array(
+      'title'  => $request->get('title'),
+      'assigner'  => $request->get('assigner'),
+      'author'  => $request->get('author'),
+      'created'  => mktime(),
+      'status'  => 1,
+    );
+    
+    $result = $app['db']->insert('tasks', $task);
 
     if (!$result) {
-
         $error = array('message' => 'The task was not posted.');
-
         return $app->json($error, 404);
     }
 
-    return $app->json($result, 201);
+    return $app->json($result, 202);
 });
 
 $app->delete('/deltask/{id}', function (Application $app, $id) {
@@ -129,7 +138,7 @@ $app->delete('/deltask/{id}', function (Application $app, $id) {
         return $app->json($error, 404);
     }
 
-    return $app->json($result, 201);
+    return $app->json($result, 202);
 });
 
 /*
@@ -150,9 +159,9 @@ $app->get('/getusers', function (Application $app) {
 
 $app->put('/putuser', function (Request $request) use ($app) {
 
-    $task = $request->request->all();
-
-    $result = $app['db']->insert('users', $task[0]);
+    $user = $request->request->all();
+    
+    $result = $app['db']->insert('users', $user);
 
     if (!$result) {
 
