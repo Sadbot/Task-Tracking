@@ -52,16 +52,18 @@
 
             </td>
             <td>
-                <select ng-model="tauthor">
+                <select ng-model="author">
                     <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
             <td>
-                <select ng-model="tassigner">
+                <select ng-model="assigner">
                     <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
-            <td></td>
+            <td>
+                <input type="button" ng-click="addTask()" class="add">
+            </td>
         </tr>
         <tr>
             <td>
@@ -71,8 +73,9 @@
             <td></td>
             <td></td>
             <td>
-                <input type="button" ng-click="addTask()" class="add">
+                
             </td>
         </tr>
     </tbody>
 </table>
+{{test}}
