@@ -138,12 +138,16 @@ tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $ur
                 .state('tasks', {
                     url: "/tasks",
                     templateUrl: "templates/tasks.tpl.html",
-                    controller: "TaskController"
+                    controller: "TaskController"//,
+                    //onEnter: $scope.getTasks()
+                    //authenticate: true
                 })
                 .state('users', {
                     url: "/users",
                     templateUrl: "templates/users.tpl.html",
-                    controller: "AdminController"
+                    controller: "AdminController"//,
+                    //onEnter: $scope.getUsers()
+                    //authenticate: true
                 })
                 .state('login', {
                     url: "/login",

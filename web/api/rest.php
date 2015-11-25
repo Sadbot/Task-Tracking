@@ -166,7 +166,7 @@ $app->put('/putuser', function (Request $request) use ($app) {
         'login' => htmlspecialchars($request->get('login')),
         'pass' => SHA1($request->get('pass')),
         'is_deleted' => 0,
-        'role' => 0,
+        'role' =>  (int)$request->get('role'),
     );
     
     $result = $app['db']->insert('users', $user);
