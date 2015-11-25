@@ -1,4 +1,4 @@
-var tt = angular.module('tt', ['ui.router','ngCookies']);
+var tt = angular.module('tt', ['ui.router', 'ngCookies']);
 
 tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
@@ -99,7 +99,7 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
 
     }]);
 
-tt.controller('LoginController', ['$scope', '$http', '$cookies', function ($scope, $http, $cookies) {
+tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', function ($scope, $http, $cookies, $location) {
         $scope.user = '';
         $scope.pass = '';
 
@@ -112,14 +112,33 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', function ($scop
 
             $http.post('/api/auth', angular.toJson(userdata))
                     .success(function (data, status) {
-                        $cookies.put('login',data.login);
-                        $cookies.put('_token',data._token);
-                        $cookies.put('role',data.role);
+                        $cookies.put('login', data.login);
+                        $cookies.put('_token', data._token);
+                        $cookies.put('role', data.role);
+
+                        $location.path('tasks');
                     })
                     .error(function (data, status) {
                         $scope.data = data || "Request failed";
                     });
+
+
         };
+        $scope.logOut = function () {
+
+            $cookies.remove('login');
+            $cookies.remove('_token');
+            $cookies.remove('role');
+
+            $http.get('api/logout')
+                    .success(function (data, status) {
+                    })
+                    .error(function (data, status) {
+                    });
+            $location.path('login');
+        };
+
+
     }]);
 
 tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
