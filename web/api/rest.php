@@ -18,23 +18,26 @@ $app['debug'] = true;
 
 $app['db'] = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
 
+$app->register(new Silex\Provider\SessionServiceProvider());
+
 /*
  * Login Controller
  */
 $app->post('/auth', function (Request $request) use ($app) {
-    $user = $request->request->all();
-
-    $username = strtolower($user['user']);
-    $password = sha1($user['pass']);
+    
+    $login = $request->get('login');
+    $pass = $request->get('pass');        
 
     $check = $app['db']->select('SELECT login,pass,role from users where login=:login and pass=:pass',array(
-        'login' => $username,
-        'pass'  => $password,
-    ));
-
+        'login' => htmlspecialchars(strtolower($login)),
+        'pass'  => sha1($pass),
+    ));        
+    
     if(!$check){
         return $app->json(array('error'=>'User is not found'),401);
     }    
+    
+//    return new Symfony\Component\HttpFoundation\Response(var_dump($check));
     
     $app['session']->set('user',array(
        'login'      => $check[0]['login'],
@@ -44,7 +47,7 @@ $app->post('/auth', function (Request $request) use ($app) {
 
     return $app->json(array(
         'login'     => $check[0]['login'],
-        '_token'    => $check[0]['_token'],
+        '_token'    => $check[0]['pass'],
         'role'      => $check[0]['role'],
         ), 201);
 });

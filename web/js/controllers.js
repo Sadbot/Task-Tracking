@@ -106,7 +106,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
         $scope.authUser = function (user, pass) {
 
             var userdata = new Object({
-                user: user,
+                login: user,
                 pass: pass
             });
 
@@ -119,7 +119,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
                         $location.path('tasks');
                     })
                     .error(function (data, status) {
-                        $scope.data = data || "Request failed";
+                        $scope.error = data || status+"Request failed";
                     });
 
 
