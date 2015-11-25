@@ -4,6 +4,7 @@ $loader = require_once __DIR__ . '/../../vendor/autoload.php';
 // Load Database (extend PDO) class. Path = /DB/Database.php
 $loader->addPsr4('DB\\', __DIR__ . '/DB');
 
+
 // Load DB configuration file /config.php
 require_once __DIR__ . '/config.php';
 
@@ -16,8 +17,6 @@ $app = new Application();
 $app['debug'] = true;
 
 $app['db'] = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
-
-$app->register(new Silex\Provider\SessionServiceProvider());
 
 /*
  * Login Controller
@@ -34,7 +33,7 @@ $app->post('/auth', function (Request $request) use ($app) {
     ));
 
     if(!$check){
-        return $app->json('error',401);
+        return $app->json(array('error'=>'User is not found'),401);
     }    
     
     $app['session']->set('user',array(
@@ -44,9 +43,9 @@ $app->post('/auth', function (Request $request) use ($app) {
     ));
 
     return $app->json(array(
-        'login'     => $check[0]['login'],
-        '_token'    => $check[0]['pass'],
-        'role'      => $check[0]['role'],
+        'login'     => $app['session']->get('login'),
+        '_token'    => $app['session']->get('_token'),
+        'role'      => $app['session']->get('role'),
         ), 201);
 });
 
