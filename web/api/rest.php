@@ -42,8 +42,14 @@ $app->post('/auth', function (Request $request) use ($app) {
                 '_token' => $check[0]['pass'],
                     ), 201);
 });
-
+/*
+ * @return 1 - in case of user 2 - in case of admin 0(false) - in case of unauthorized
+ */
 function isAuth(Application $app) {
+    if(empty($_COOKIE['_token']) || empty($_COOKIE['login'])){
+        return false;
+    }
+    
     $login = htmlspecialchars(strtolower($_COOKIE['login']));
     $pass = htmlspecialchars($_COOKIE['_token']);
 
@@ -55,16 +61,26 @@ function isAuth(Application $app) {
     if (!$user) {
         return false;
     }
+    
+    return $app->json($user[0]['role']);
+    
+    if(1 == $user[0]['role']){
+        return 2;
+    }
 
-    return true;
+    return 1;
 }
 
 $app->get('/checkuser', function() use ($app) {
 
-    if (isAuth($app)) {
+    if (!isAuth($app)) {
         return $app->json(array('error' => 'No such user!'), 405);
     }
-
+    
+    if(2 === isAuth($app)){
+        return $app->json('admin!',200);
+    }
+        
     return $app->json('authorized', 201);
 });
 
@@ -154,7 +170,7 @@ $app->get('/closetask/{id}', function ($id) use ($app) {
  */
 $app->get('/getusers', function (Application $app) {
 
-    if (!isAuth($app)) {
+    if (2 === isAuth($app)) {
         return $app->json(array('error' => 'not authorized'), 405);
     }
 
@@ -171,7 +187,7 @@ $app->get('/getusers', function (Application $app) {
 
 $app->put('/putuser', function (Request $request) use ($app) {
 
-    if (!isAuth($app)) {
+     if (isAuth($app) === 2) {
         return $app->json(array('error' => 'not authorized'), 405);
     }
 
@@ -198,7 +214,7 @@ $app->put('/putuser', function (Request $request) use ($app) {
 
 $app->get('/deluser/{id}', function ($id) use ($app) {
 
-    if (!isAuth($app)) {
+     if (isAuth($app) === 2) {
         return $app->json(array('error' => 'not authorized'), 405);
     }
 

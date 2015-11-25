@@ -1,18 +1,19 @@
 var tt = angular.module('tt', ['ui.router', 'ngCookies']);
 
 tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-        
+
         $scope.isAuthUser = function () {
-                        
+
             $http.get('api/checkuser')
-                .success(function (data, status) {})
-                .error(function (data) {
-                    $state.go('login');
-                });
+                    .success(function (data, status) {
+                    })
+                    .error(function (data) {
+                        $state.go('login');
+                    });
         };
-        
+
         $scope.isAuthUser();
-        
+
         $scope.show = true;
 
         $scope.isDisabled = function () {
@@ -41,10 +42,10 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data,status) {
+                    .error(function (data, status) {
                         $scope.error = angular.fromJson($scope.data.error);
                     });
-            $scope.curTask = {};            
+            $scope.curTask = {};
         };
 
         $scope.closeTask = function (current_id) {
@@ -77,8 +78,23 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
 
     }]);
 
-tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
+tt.controller('AdminController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
         $scope.show = true;
+
+        $scope.isAuthUser = function () {
+
+            $http.get('api/checkuser')
+                    .success(function (data, status) {
+                        if(status==201){
+                            $state.go('tasks');
+                        }
+                    })
+                    .error(function (data) {
+                        $state.go('login');
+                    });
+        };
+
+        $scope.isAuthUser();
 
         $scope.isDisabled = function () {
             return (!$scope.title || !$scope.assigner || !$scope.author);
@@ -87,17 +103,16 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
         $scope.curUser = {};
 
         $scope.getUsers = function () {
-
             $http.get('/api/getusers')
                     .success(function (data, status) {
                         $scope.users = data;
                         $scope.status = status;
                     })
                     .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = data;
                     });
         };
-        
+
         $scope.getUsers();
 
         $scope.putUser = function (curUser) {
@@ -107,7 +122,7 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.status = status;
                     })
                     .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = data;
                     });
             $scope.curUser = {};
         };
@@ -119,53 +134,45 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data).error;
+                        $scope.error = data;
                     });
         };
 
     }]);
 
-tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', function ($scope, $http, $cookies, $location) {
+tt.controller('LoginController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
         $scope.user = '';
         $scope.pass = '';
 
         $scope.authUser = function (user, pass) {
-
             var userdata = new Object({
                 login: user,
                 pass: pass
             });
-
             $http.post('/api/auth', angular.toJson(userdata))
                     .success(function (data, status) {
                         $cookies.put('login', data.login);
                         $cookies.put('_token', data._token);
 
-                        $location.path('tasks');
+                        $state.go('tasks');
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = data;
                     });
-
-
         };
 
-        this.isAuthUser = function () {
+        $scope.isAuthUser = function () {
 
-            var userdata = new Object({
-                login: $cookies.get('login'),
-                _token: $cookies.get('_token'),
-                role: $cookies.get('role'),
-            });
-
-            $http.post('api/checkuser', angular.toJson(userdata))
+            $http.get('api/checkuser')
                     .success(function (data, status) {
-                        alert("you auth!");
+                        $state.go('tasks');
                     })
                     .error(function (data) {
-                        alert("you are not auth!");
+                        $state.go('login');
                     });
         };
+
+        $scope.isAuthUser();
 
         $scope.logOut = function () {
 
@@ -173,7 +180,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
             $cookies.remove('_token');
             $cookies.remove('role');
 
-            $location.path('login');
+            $state.go('login');
         };
 
 
