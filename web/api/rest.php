@@ -43,9 +43,9 @@ $app->post('/auth', function (Request $request) use ($app) {
     ));
 
     return $app->json(array(
-        'login'     => $app['session']->get('login'),
-        '_token'    => $app['session']->get('_token'),
-        'role'      => $app['session']->get('role'),
+        'login'     => $check[0]['login'],
+        '_token'    => $check[0]['_token'],
+        'role'      => $check[0]['role'],
         ), 201);
 });
 
