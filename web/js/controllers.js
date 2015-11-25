@@ -119,22 +119,36 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
                         $location.path('tasks');
                     })
                     .error(function (data, status) {
-                        $scope.error = data || status+"Request failed";
+                        $scope.error = data || status + "Request failed";
                     });
 
 
         };
+
+        $scope.isAuthUser = function () {
+
+            var userdata = new Object({
+                login: $cookies.get('login'),
+                _token: $cookies.get('_token'),
+                role: $cookies.get('role'),
+            });
+
+            $http.post('api/checkuser', angular.toJson(userdata))
+                    .success(function (data,status) {                        
+                        $scope.data = data;
+                            
+                    })
+                    .error(function (data) {
+                        return 0;
+                    });
+        };
+
         $scope.logOut = function () {
 
             $cookies.remove('login');
             $cookies.remove('_token');
             $cookies.remove('role');
-
-            $http.get('api/logout')
-                    .success(function (data, status) {
-                    })
-                    .error(function (data, status) {
-                    });
+            
             $location.path('login');
         };
 
@@ -142,21 +156,25 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
     }]);
 
 tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/login");
         $stateProvider
                 .state('tasks', {
                     url: "/tasks",
                     templateUrl: "templates/tasks.tpl.html",
-                    controller: "TaskController"
+                    controller: "TaskController",
+                    authenticate: true
                 })
                 .state('users', {
                     url: "/users",
                     templateUrl: "templates/users.tpl.html",
-                    controller: "AdminController"
+                    controller: "AdminController",
+                    authenticate: true
                 })
                 .state('login', {
                     url: "/login",
                     templateUrl: "templates/login.tpl.html",
                     controller: "LoginController"
                 });
+        $urlRouterProvider.otherwise("/login");
+
+
     }]);

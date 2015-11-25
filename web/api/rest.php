@@ -18,8 +18,6 @@ $app['debug'] = true;
 
 $app['db'] = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
 
-$app->register(new Silex\Provider\SessionServiceProvider());
-
 /*
  * Login Controller
  */
@@ -36,34 +34,30 @@ $app->post('/auth', function (Request $request) use ($app) {
     if(!$check){
         return $app->json(array('error'=>'User is not found'),401);
     }    
-    
 //    return new Symfony\Component\HttpFoundation\Response(var_dump($check));
-    
-    $app['session']->set('user',array(
-       'login'      => $check[0]['login'],
-        '_token'    => $check[0]['pass'],
-        'role'      => $check[0]['role'],
-    ));
 
     return $app->json(array(
         'login'     => $check[0]['login'],
-        '_token'    => $check[0]['pass'],
-        'role'      => $check[0]['role'],
+        '_token'    => $check[0]['pass'],        
         ), 201);
 });
 
 $app->post('/checkuser', function(Request $request) use ($app){
     $user = $request->request->all();
 
-    $username = strtolower($user['user']);
-    $password = sha1($user['pass']);
-    $role = (int)$user['role'];
+    $login  = htmlspecialchars(strtolower($user['user']));
+    $pass   = htmlspecialchars($user['_token']);    
     
-    if ($username === $app['session']->get('login') && $password === $app['session']->get('_token') && $role === $app['session']->get('role')){
-        return true;
-    }
+    $user = $app['db']->select('SELECT login,pass,role FROM users WHERE login=:login and pass=:pass',array(
+        'login'  => $login,
+        'pass'  => $pass,
+    ));
     
-    return false;
+    if (!$user){
+        return $app->json(array('error'=>'No such user!'),405);
+    }       
+    
+    return $app->json($user[0]['role'],201);
 });
 
 /*
