@@ -1,22 +1,14 @@
 var tt = angular.module('tt', ['ui.router', 'ngCookies']);
 
-tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-        
-        $scope.isAuthUser = function () {
-                        
-            $http.get('api/checkuser')
-                .success(function (data, status) {})
-                .error(function (data) {
-                    $state.go('login');
-                });
-        };
-        
-        $scope.isAuthUser();
-        
+tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
 
         $scope.isDisabled = function () {
+<<<<<<< HEAD
+            return (!$scope.curTask.title || !$scope.curTask.assigner || !$scope.curTask.author);
+=======
             return (!$scope.curTask.title || !$scope.curTask.author || !$scope.curTask.assigner);
+>>>>>>> origin/front_test
         };
 
         $scope.curTask = {};
@@ -30,10 +22,10 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data).error;
+                        $scope.tasks = data || "Request failed";
+                        $scope.status = status;
                     });
         };
-        $scope.getTasks();
 
         $scope.putTask = function (curTask) {
             $http.put('/api/puttask', curTask)
@@ -41,38 +33,37 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data,status) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                    .error(function (data, status) {
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
                     });
-            $scope.curTask = {};            
+            $scope.curTask = {};
         };
 
-        $scope.closeTask = function (current_id) {
-            $http.get('/api/closetask/' + current_id)
+        $scope.delTask = function (current_id) {
+            $http.get('/api/deltask/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                    .error(function (data, status) {
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
                     });
         };
-
-        $scope.asUser = function (id) {
+        
+        $scope.asUser = function(id) {
             var user;
-            for (var i = 0; i < $scope.users.length; i++) {
-                if (id == $scope.users[i].id) {
-                    user = $scope.users[i].login;
+            for (var i=0; i<$scope.users.length; i++){
+                if (id == $scope.users[i].id){
+                    user=$scope.users[i].login;
                 }
             }
             return user;
         };
-
-        $scope.asStatus = function (status) {
-            if (status == 1)
-                return 'open';
-            else
-                return 'closed';
+        
+        $scope.asStatus = function(status){
+            if (status==1) return 'open'; else return 'closed';
         };
 
     }]);
@@ -93,12 +84,11 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.users = data;
                         $scope.status = status;
                     })
-                    .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                    .error(function (data, status) {
+                        $scope.tasks = data || "Request failed";
+                        $scope.status = status;
                     });
         };
-        
-        $scope.getUsers();
 
         $scope.putUser = function (curUser) {
             $http.put('/api/putuser', curUser)
@@ -106,20 +96,22 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                    .error(function (data, status) {
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
                     });
             $scope.curUser = {};
         };
 
         $scope.delUser = function (current_id) {
-            $http.get('/api/deluser/' + current_id)
+            $http.delete('/api/deluser/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data).error;
+                        $scope.data = data || "Request failed";
+                        $scope.status = status;
                     });
         };
 
@@ -138,19 +130,26 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
 
             $http.post('/api/auth', angular.toJson(userdata))
                     .success(function (data, status) {
+<<<<<<< HEAD
                         $cookies.put('login', data.login);
                         $cookies.put('_token', data._token);
+                        $cookies.put('role', data.role);
 
                         $location.path('tasks');
+=======
+                        $cookies.put('login',data.login);
+                        $cookies.put('_token',data._token);
+                        $cookies.put('role',data.role);
+>>>>>>> origin/front_test
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = data || status + "Request failed";
                     });
 
 
         };
 
-        this.isAuthUser = function () {
+        $scope.isAuthUser = function () {
 
             var userdata = new Object({
                 login: $cookies.get('login'),
@@ -159,24 +158,28 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
             });
 
             $http.post('api/checkuser', angular.toJson(userdata))
-                    .success(function (data, status) {
-                        alert("you auth!");
+                    .success(function (data,status) {                        
+                        $scope.data = data;
+                            
                     })
                     .error(function (data) {
-                        alert("you are not auth!");
+                        return 0;
                     });
         };
+<<<<<<< HEAD
 
         $scope.logOut = function () {
 
             $cookies.remove('login');
             $cookies.remove('_token');
             $cookies.remove('role');
-
+            
             $location.path('login');
         };
 
 
+=======
+>>>>>>> origin/front_test
     }]);
 
 tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -184,21 +187,41 @@ tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $ur
                 .state('tasks', {
                     url: "/tasks",
                     templateUrl: "templates/tasks.tpl.html",
+<<<<<<< HEAD
                     controller: "TaskController",
                     authenticate: true
+=======
+                    controller: "TaskController"//,
+                    //onEnter: $scope.getTasks()
+                    //authenticate: true
+>>>>>>> origin/front_test
                 })
                 .state('users', {
                     url: "/users",
                     templateUrl: "templates/users.tpl.html",
+<<<<<<< HEAD
                     controller: "AdminController",
                     authenticate: true
+=======
+                    controller: "AdminController"//,
+                    //onEnter: $scope.getUsers()
+                    //authenticate: true
+>>>>>>> origin/front_test
                 })
                 .state('login', {
                     url: "/login",
                     templateUrl: "templates/login.tpl.html",
                     controller: "LoginController"
                 });
+<<<<<<< HEAD
         $urlRouterProvider.otherwise("/login");
 
 
     }]);
+=======
+    }]);
+
+//
+//tt.run($scope.getTasks()){
+//});
+>>>>>>> origin/front_test
