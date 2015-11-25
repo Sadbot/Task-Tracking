@@ -17,6 +17,8 @@ $app['debug'] = true;
 
 $app['db'] = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
 
+$app->register(new Silex\Provider\SessionServiceProvider());
+
 /*
  * Login Controller
  */
@@ -27,27 +29,46 @@ $app->post('/auth', function (Request $request) use ($app) {
     $username = strtolower($user['user']);
     $password = sha1($user['pass']);
 
-    $check = $app['db']->select('SELECT login,pass from users where login=:login and pass=:pass',array(
+    $check = $app['db']->select('SELECT login,pass,role from users where login=:login and pass=:pass',array(
         'login' => $username,
         'pass'  => $password,
     ));
 
     if(!$check){
         return $app->json('error',401);
-    }
+    }    
+//    return new Symfony\Component\HttpFoundation\Response(var_dump($check));
+    
+    $app['session']->set('user',array(
+       'login'      => $check[0]['login'],
+        '_token'    => $check[0]['pass'],
+        'role'      => $check[0]['role'],
+    ));
 
     return $app->json(array(
-        'login' => $username,
-        '_token'  => $password), 201);
+        'login'     => $check[0]['login'],
+        '_token'    => $check[0]['pass'],
+        'role'      => $check[0]['role'],
+        ), 201);
 });
 
-$app->get('/account', function () use ($app) {
-    if (null === $user = $app['session']->get('user')) {
-        return $app->redirect('/login.html');
+$app->post('/checkuser', function(Request $request) use ($app){
+    $user = $request->request->all();
+
+    $username = strtolower($user['user']);
+    $password = sha1($user['pass']);
+    $role = (int)$user['role'];
+    
+    if ($username === $app['session']->get('login') && $password === $app['session']->get('_token') && $role === $app['session']->get('role')){
+        return true;
     }
-
-    return "Welcome {$user['username']}!";
+    
+    return false;
 });
+
+//$api->get('/logout', function () use ($app){
+//    $app['session']->
+//});
 
 
 /*
@@ -57,7 +78,6 @@ $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
-
     }
 });
 
@@ -79,18 +99,24 @@ $app->get('/gettasks', function (Application $app) {
         'tasks' => $tasks,
     ), 200);
 });
-
+/*
+ * @request In request must be 
+ */
 $app->put('/puttask', function (Request $request) use ($app) {
 
     $task = $request->request->all();
     
     $task = array(
-      'title'  => $request->get('title'),
-      'assigner'  => $request->get('assigner'),
-      'author'  => $request->get('author'),
+      'title'  => htmlspecialchars($request->get('title')),
+      'assigner'  => (int)$request->get('assigner'),
+      'author'  => (int)$request->get('author'),
       'created'  => date('Y-m-d H:i:s'),
       'status'  => 1,
     );
+    
+    if (empty($task['title']) && empty($task['assigner']) && empty($task['author'])){
+        return $app->json(array('error'=>'Variables couldn\'t be empty'),405);
+    }
     
     $result = $app['db']->insert('tasks', $task);
 
@@ -102,7 +128,7 @@ $app->put('/puttask', function (Request $request) use ($app) {
     return $app->json($result, 202);
 });
 
-$app->delete('/deltask/{id}', function (Application $app, $id) {
+$app->delete('/deltask/{id}', function ($id) use ($app) {
 
     $result = $app['db']->delete('tasks', 'id=' . $id);
 
@@ -136,6 +162,13 @@ $app->put('/putuser', function (Request $request) use ($app) {
 
     $user = $request->request->all();
     
+    $user = array(
+        'login' => htmlspecialchars($request->get('login')),
+        'pass' => SHA1($request->get('pass')),
+        'is_deleted' => 0,
+        'role' => 0,
+    );
+    
     $result = $app['db']->insert('users', $user);
 
     if (!$result) {
@@ -148,15 +181,13 @@ $app->put('/putuser', function (Request $request) use ($app) {
     return $app->json($result, 201);
 });
 
-$app->delete('/deluser/{id}', function (Application $app, $id) {
+$app->delete('/deluser/{id}', function ($id) use ($app) {
 
     $result = $app['db']->delete('users', 'id=' . $id);
 
     if (!$result) {
-
         $error = array('message' => 'The user was not deleted.');
-
-        return $app->json($error, 404);
+        return $app->json($error, 405);
     }
 
     return $app->json($result, 201);
