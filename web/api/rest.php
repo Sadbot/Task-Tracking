@@ -22,7 +22,6 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 /*
  * Login Controller
  */
-
 $app->post('/auth', function (Request $request) use ($app) {
     $user = $request->request->all();
 
@@ -37,7 +36,6 @@ $app->post('/auth', function (Request $request) use ($app) {
     if(!$check){
         return $app->json('error',401);
     }    
-//    return new Symfony\Component\HttpFoundation\Response(var_dump($check));
     
     $app['session']->set('user',array(
        'login'      => $check[0]['login'],
@@ -65,11 +63,6 @@ $app->post('/checkuser', function(Request $request) use ($app){
     
     return false;
 });
-
-//$api->get('/logout', function () use ($app){
-//    $app['session']->
-//});
-
 
 /*
  * Accepting a JSON Request Body
