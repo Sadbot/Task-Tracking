@@ -37,7 +37,7 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         };
 
         $scope.delTask = function (current_id) {
-            $http.delete('/api/deltask/' + current_id)
+            $http.get('/api/deltask/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
@@ -56,7 +56,11 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
                 }
             }
             return user;
-        } ;
+        };
+        
+        $scope.asStatus = function(status){
+            if (status==1) return 'open'; else return 'closed';
+        };
 
     }]);
 

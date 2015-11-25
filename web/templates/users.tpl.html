@@ -17,20 +17,15 @@
     <tbody>
         <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" >
             <!--ng-show="user.is_deleted == 0">-->
-            <td>
-                {{user.id}}
+            <td ng-bind="user.id">
             </td>
-            <td>
-                {{user.login}}
+            <td ng-bind="user.login">
             </td>
-            <td>
-                {{user.pass}}
+            <td ng-bind="user.pass">
             </td>
-            <td>
-                {{user.is_deleted}}
+            <td ng-bind="user.is_deleted">
             </td>
-            <td>
-                {{user.role}}
+            <td ng-bind="user.role">
             </td>            
             <td>
                 <input type="button" class="check buttons" ng-click="delUser(user.id);getUsers()" >
