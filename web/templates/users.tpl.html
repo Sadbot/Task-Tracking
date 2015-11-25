@@ -1,7 +1,6 @@
 <div class="content" ng-controller="AdminController">
-
-<a ui-sref="tasks">Tasks</a>
-<input class="switch" type="button" ng-click="getUsers()" value="Refresh">
+<button ng-controller="LoginController" ng-click='logOut()'>Log out</button>
+<button ui-sref="tasks">Tasks</button>
 
 <table>
     <thead>
@@ -28,15 +27,15 @@
             <td ng-bind="user.role">
             </td>            
             <td>
-                <input type="button" class="check buttons" ng-click="delUser(user.id)" >
+                <input type="button" class="check buttons" ng-click="delUser(user.id);getUsers();" >
             </td>
         </tr>
     </tbody>
 </table>
 
-<div ng-bind="error"></div>
 
-<form ng-submit="putUser(curUser)">
+
+<form ng-submit="putUser(curUser);getUsers();">
     <input type="text" ng-model="curUser.login"/>
     <input type="password" ng-model="curUser.pass"/>
     <select ng-model="curUser.role"><option value="0">user</option><option value="1">admin</option></select>

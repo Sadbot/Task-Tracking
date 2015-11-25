@@ -168,14 +168,12 @@ $app->get('/closetask/{id}', function ($id) use ($app) {
         return $app->json(array('error' => 'not authorized'), 405);
     }
 
-    $result = $app['db']->update('tasks', array(
-        'status' => 'NOT `status`'
-            ), "`id` = {$id}");
+    $result = $app['db']->update("UPDATE tasks SET status = NOT status WHERE id=$id");
 
-    if (!$result) {
-        $error = array('error' => 'The task was not updated.');
-        return $app->json($error, 405);
-    }
+//    if (!$result) {
+//        $error = array('error' => 'The task was not updated.');
+//        return $app->json($error, 405);
+//    }
 
     return $app->json(array('message' => 'OK'), 202);
 });
@@ -233,14 +231,12 @@ $app->get('/deluser/{id}', function ($id) use ($app) {
         return $app->json(array('no admin'), 405);
     }
 
-    $result = $app['db']->update('users', array(
-        'is_deleted' => 'NOT \'is_deleted\'',
-            ), 'id=' . $id);
+    $result = $app['db']->update("UPDATE `users` SET `is_deleted` = NOT `is_deleted` WHERE id =$id");
 
-    if (!$result) {
-        $error = array('error' => 'The user was not deleted.');
-        return $app->json($error, 405);
-    }
+//    if (!$result) {
+//        $error = array('error' => 'The user was not deleted.');
+//        return $app->json($error, 405);
+//    }
 
     return $app->json($result, 201);
 });

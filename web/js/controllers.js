@@ -2,17 +2,30 @@ var tt = angular.module('tt', ['ui.router', 'ngCookies']);
 
 tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
 
+$scope.gotoUsers = function(){$state.go('users');};
+
         $scope.isAuthUser = function () {
 
             $http.get('api/checkuser')
-                    .success(function (data, status) {
+                    .success(function (data, status) {                        
                     })
                     .error(function (data) {
                         $state.go('login');
                     });
         };
-
+        
         $scope.isAuthUser();
+        
+        $scope.isAdmin = function () {
+
+            $http.get('api/checkadmin')
+                    .success(function (data, status) {
+                       return true;
+                    })
+                    .error(function (data) {
+                        return false;
+                    });
+        };
 
         $scope.show = true;
 

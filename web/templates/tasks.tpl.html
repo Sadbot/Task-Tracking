@@ -1,8 +1,9 @@
 <div class="content" ng-controller="TaskController">
 
     <button ng-controller="LoginController" ng-click='logOut()'>Log out</button>
+    <input class="switch" type="button" ui-sref="users" value="Users">
 
-<input class="switch" type="button" ng-click="getTasks()" value="Refresh">
+
 
 <table>
     <thead>
@@ -49,7 +50,7 @@
             <td ng-bind="asStatus(task.status)">
             </td>
             <td>
-                <input type="button" ng-click="closeTask(task.id)" class="check">
+                <input type="button" ng-click="closeTask(task.id);getTasks();" class="check">
             </td>
 
         </tr>
@@ -72,10 +73,11 @@
 
 <div ng-bind="error"></div>
 
-<form ng-submit="putTask(curTask)">
+<form ng-submit="putTask(curTask);getTasks();">
     <input type="text" ng-model="curTask.title" placeholder="Add task title">
     <select ng-options="user.id as user.login for user in users" ng-model="curTask.author"></select>
     <select ng-options="user.id as user.login for user in users" ng-model="curTask.assigner"></select>
     <input type="submit" value="Put task" ng-disabled="isDisabled()"/>
+    
 </form>
 </div>
