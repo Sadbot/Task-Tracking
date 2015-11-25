@@ -4,7 +4,7 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         $scope.show = true;
 
         $scope.isDisabled = function () {
-            return (!$scope.curTask.title || !$scope.curTask.assigner || !$scope.curTask.author);
+            return (!$scope.curTask.title || !$scope.curTask.author || !$scope.curTask.assigner);
         };
 
         $scope.curTask = {};
@@ -37,7 +37,7 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
         };
 
         $scope.delTask = function (current_id) {
-            $http.delete('/api/deltask/' + current_id)
+            $http.get('/api/deltask/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
@@ -46,6 +46,20 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
                         $scope.data = data || "Request failed";
                         $scope.status = status;
                     });
+        };
+        
+        $scope.asUser = function(id) {
+            var user;
+            for (var i=0; i<$scope.users.length; i++){
+                if (id == $scope.users[i].id){
+                    user=$scope.users[i].login;
+                }
+            }
+            return user;
+        };
+        
+        $scope.asStatus = function(status){
+            if (status==1) return 'open'; else return 'closed';
         };
 
     }]);
@@ -114,7 +128,6 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
                     .success(function (data, status) {
                         $cookies.put('login', data.login);
                         $cookies.put('_token', data._token);
-                        $cookies.put('role', data.role);
 
                         $location.path('tasks');
                     })

@@ -118,18 +118,18 @@ $app->put('/puttask', function (Request $request) use ($app) {
     return $app->json($result, 202);
 });
 
-$app->delete('/deltask/{id}', function ($id) use ($app) {
+$app->get('/deltask/{id}', function ($id) use ($app) {
 
-    $result = $app['db']->delete('tasks', 'id=' . $id);
+    $result = $app['db']->update('tasks', ['status'=>0], 'id=' . $id);
 
-    if (!$result) {
-
-        $error = array('message' => 'The task was not deleted.');
-
-        return $app->json($error, 404);
-    }
-
-    return $app->json($result, 202);
+//    if (!$result) {
+//
+//        $error = array('message' => 'The task was not updated.');
+//
+//        return $app->json($error, 404);
+//    }
+//
+    return $app->json(array('message'=>'OK'), 202);
 });
 
 /*
