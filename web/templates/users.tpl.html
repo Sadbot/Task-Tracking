@@ -28,13 +28,15 @@
             <td ng-bind="user.role">
             </td>            
             <td>
-                <input type="button" class="check buttons" ng-click="delUser(user.id);getUsers()" >
+                <input type="button" class="check buttons" ng-click="delUser(user.id)" >
             </td>
         </tr>
     </tbody>
 </table>
 
-<form ng-submit="putUser(curUser);getUsers()">
+<div ng-bind="error"></div>
+
+<form ng-submit="putUser(curUser)">
     <input type="text" ng-model="curUser.login"/>
     <input type="password" ng-model="curUser.pass"/>
     <select ng-model="curUser.role"><option value="0">user</option><option value="1">admin</option></select>

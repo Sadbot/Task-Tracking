@@ -93,10 +93,7 @@ $app->get('/gettasks', function (Application $app) {
  */
 $app->put('/puttask', function (Request $request) use ($app) {
 
-    $task = $request->request->all();
-    
     $task = array(
-
       'title'  => htmlspecialchars($request->get('title')),
       'assigner'  => (int)$request->get('assigner'),
       'author'  => (int)$request->get('author'),
@@ -118,17 +115,17 @@ $app->put('/puttask', function (Request $request) use ($app) {
     return $app->json($result, 202);
 });
 
-$app->get('/deltask/{id}', function ($id) use ($app) {
+$app->get('/closetask/{id}', function ($id) use ($app) {
 
-    $result = $app['db']->update('tasks', ['status'=>0], 'id=' . $id);
+    $result = $app['db']->update('tasks', array(
+        'status'    =>  'NOT `status`'
+    ), "`id` = {$id}");
 
-//    if (!$result) {
-//
-//        $error = array('message' => 'The task was not updated.');
-//
-//        return $app->json($error, 404);
-//    }
-//
+    if (!$result) {
+        $error = array('error' => 'The task was not updated.');
+        return $app->json($error, 405);
+    }
+
     return $app->json(array('message'=>'OK'), 202);
 });
 
@@ -171,12 +168,14 @@ $app->put('/putuser', function (Request $request) use ($app) {
     return $app->json($result, 201);
 });
 
-$app->delete('/deluser/{id}', function ($id) use ($app) {
+$app->get('/deluser/{id}', function ($id) use ($app) {
 
-    $result = $app['db']->delete('users', 'id=' . $id);
+    $result = $app['db']->update('users', array(
+        'is_deleted' => 'NOT \'is_deleted\'',
+    ),'id='.$id);
 
     if (!$result) {
-        $error = array('message' => 'The user was not deleted.');
+        $error = array('error' => 'The user was not deleted.');
         return $app->json($error, 405);
     }
 

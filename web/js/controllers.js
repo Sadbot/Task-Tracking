@@ -18,10 +18,10 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.tasks = data || "Request failed";
-                        $scope.status = status;
+                        $scope.error = angular.fromJson($scope.data).error;
                     });
         };
+        $scope.getTasks();
 
         $scope.putTask = function (curTask) {
             $http.put('/api/puttask', curTask)
@@ -29,37 +29,38 @@ tt.controller('TaskController', ['$scope', '$http', function ($scope, $http) {
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data, status) {
-                        $scope.data = data || "Request failed";
-                        $scope.status = status;
+                    .error(function (data,status) {
+                        $scope.error = angular.fromJson($scope.data.error);
                     });
-            $scope.curTask = {};
+            $scope.curTask = {};            
         };
 
-        $scope.delTask = function (current_id) {
-            $http.get('/api/deltask/' + current_id)
+        $scope.closeTask = function (current_id) {
+            $http.get('/api/closetask/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data, status) {
-                        $scope.data = data || "Request failed";
-                        $scope.status = status;
+                    .error(function (data) {
+                        $scope.error = angular.fromJson($scope.data.error);
                     });
         };
-        
-        $scope.asUser = function(id) {
+
+        $scope.asUser = function (id) {
             var user;
-            for (var i=0; i<$scope.users.length; i++){
-                if (id == $scope.users[i].id){
-                    user=$scope.users[i].login;
+            for (var i = 0; i < $scope.users.length; i++) {
+                if (id == $scope.users[i].id) {
+                    user = $scope.users[i].login;
                 }
             }
             return user;
         };
-        
-        $scope.asStatus = function(status){
-            if (status==1) return 'open'; else return 'closed';
+
+        $scope.asStatus = function (status) {
+            if (status == 1)
+                return 'open';
+            else
+                return 'closed';
         };
 
     }]);
@@ -80,11 +81,12 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.users = data;
                         $scope.status = status;
                     })
-                    .error(function (data, status) {
-                        $scope.tasks = data || "Request failed";
-                        $scope.status = status;
+                    .error(function (data) {
+                        $scope.error = angular.fromJson($scope.data.error);
                     });
         };
+        
+        $scope.getUsers();
 
         $scope.putUser = function (curUser) {
             $http.put('/api/putuser', curUser)
@@ -92,22 +94,20 @@ tt.controller('AdminController', ['$scope', '$http', function ($scope, $http) {
                         $scope.data = data;
                         $scope.status = status;
                     })
-                    .error(function (data, status) {
-                        $scope.data = data || "Request failed";
-                        $scope.status = status;
+                    .error(function (data) {
+                        $scope.error = angular.fromJson($scope.data.error);
                     });
             $scope.curUser = {};
         };
 
         $scope.delUser = function (current_id) {
-            $http.delete('/api/deluser/' + current_id)
+            $http.get('/api/deluser/' + current_id)
                     .success(function (data, status) {
                         $scope.data = data;
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.data = data || "Request failed";
-                        $scope.status = status;
+                        $scope.error = angular.fromJson($scope.data).error;
                     });
         };
 
@@ -132,7 +132,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
                         $location.path('tasks');
                     })
                     .error(function (data, status) {
-                        $scope.error = data || status + "Request failed";
+                        $scope.error = angular.fromJson($scope.data.error);
                     });
 
 
@@ -147,9 +147,9 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
             });
 
             $http.post('api/checkuser', angular.toJson(userdata))
-                    .success(function (data,status) {                        
+                    .success(function (data, status) {
                         $scope.data = data;
-                            
+
                     })
                     .error(function (data) {
                         return 0;
@@ -161,7 +161,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$location', fu
             $cookies.remove('login');
             $cookies.remove('_token');
             $cookies.remove('role');
-            
+
             $location.path('login');
         };
 
