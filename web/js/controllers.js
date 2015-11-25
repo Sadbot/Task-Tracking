@@ -31,7 +31,7 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data).error;
+                        $scope.error = status;
                     });
         };
         $scope.getTasks();
@@ -43,7 +43,7 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.status = status;
                     })
                     .error(function (data, status) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = status;
                     });
             $scope.curTask = {};
         };
@@ -55,7 +55,7 @@ tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', functi
                         $scope.status = status;
                     })
                     .error(function (data) {
-                        $scope.error = angular.fromJson($scope.data.error);
+                        $scope.error = status;
                     });
         };
 
@@ -83,11 +83,9 @@ tt.controller('AdminController', ['$scope', '$http', '$cookies', '$state', funct
 
         $scope.isAuthUser = function () {
 
-            $http.get('api/checkuser')
+            $http.get('api/checkadmin')
                     .success(function (data, status) {
-                        if(status==201){
-                            $state.go('tasks');
-                        }
+                        
                     })
                     .error(function (data) {
                         $state.go('login');
@@ -161,18 +159,7 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$state', funct
                     });
         };
 
-        $scope.isAuthUser = function () {
 
-            $http.get('api/checkuser')
-                    .success(function (data, status) {
-                        $state.go('tasks');
-                    })
-                    .error(function (data) {
-                        $state.go('login');
-                    });
-        };
-
-        $scope.isAuthUser();
 
         $scope.logOut = function () {
 
@@ -188,6 +175,11 @@ tt.controller('LoginController', ['$scope', '$http', '$cookies', '$state', funct
 
 tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $stateProvider
+                .state('login', {
+                    url: "/login",
+                    templateUrl: "templates/login.tpl.html",
+                    controller: "LoginController"
+                })
                 .state('tasks', {
                     url: "/tasks",
                     templateUrl: "templates/tasks.tpl.html",
@@ -199,13 +191,9 @@ tt.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $ur
                     templateUrl: "templates/users.tpl.html",
                     controller: "AdminController",
                     authenticate: true
-                })
-                .state('login', {
-                    url: "/login",
-                    templateUrl: "templates/login.tpl.html",
-                    controller: "LoginController"
                 });
-        $urlRouterProvider.otherwise("/login");
+
+        $urlRouterProvider.otherwise('/login');
 
 
     }]);

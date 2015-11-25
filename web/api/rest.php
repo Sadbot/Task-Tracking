@@ -49,7 +49,6 @@ function isAuth(Application $app) {
     if(empty($_COOKIE['_token']) || empty($_COOKIE['login'])){
         return false;
     }
-    
     $login = htmlspecialchars(strtolower($_COOKIE['login']));
     $pass = htmlspecialchars($_COOKIE['_token']);
 
@@ -57,18 +56,29 @@ function isAuth(Application $app) {
         'login' => $login,
         'pass' => $pass,
     ));
-
+    
     if (!$user) {
         return false;
     }
-    
-    return $app->json($user[0]['role']);
-    
-    if(1 == $user[0]['role']){
-        return 2;
-    }
+    return true;
+}
 
-    return 1;
+function isAdmin(Application $app) {
+    if(empty($_COOKIE['_token']) || empty($_COOKIE['login'])){
+        return false;
+    }
+    $login = htmlspecialchars(strtolower($_COOKIE['login']));
+    $pass = htmlspecialchars($_COOKIE['_token']);
+
+    $user = $app['db']->select('SELECT login,pass,role FROM users WHERE login=:login and pass=:pass and role=1', array(
+        'login' => $login,
+        'pass' => $pass,
+    ));
+    
+    if (!$user) {
+        return false;
+    }
+    return true;
 }
 
 $app->get('/checkuser', function() use ($app) {
@@ -77,8 +87,13 @@ $app->get('/checkuser', function() use ($app) {
         return $app->json(array('error' => 'No such user!'), 405);
     }
     
-    if(2 === isAuth($app)){
-        return $app->json('admin!',200);
+    return $app->json('authorized', 201);
+});
+
+$app->get('/checkadmin', function() use ($app) {
+
+    if (!isAdmin($app)) {
+        return $app->json(array('error' => 'No admin!'), 405);
     }
         
     return $app->json('authorized', 201);
@@ -170,8 +185,8 @@ $app->get('/closetask/{id}', function ($id) use ($app) {
  */
 $app->get('/getusers', function (Application $app) {
 
-    if (2 === isAuth($app)) {
-        return $app->json(array('error' => 'not authorized'), 405);
+    if (!isAdmin($app)) {
+        return $app->json(array('error' => 'no admin'), 405);
     }
 
     $users = $app['db']->select('SELECT id,login,pass,is_deleted,role from users');
@@ -187,8 +202,8 @@ $app->get('/getusers', function (Application $app) {
 
 $app->put('/putuser', function (Request $request) use ($app) {
 
-     if (isAuth($app) === 2) {
-        return $app->json(array('error' => 'not authorized'), 405);
+     if (!isAdmin($app)) {
+        return $app->json(array('error' => 'no admin'), 405);
     }
 
     $user = $request->request->all();
@@ -214,8 +229,8 @@ $app->put('/putuser', function (Request $request) use ($app) {
 
 $app->get('/deluser/{id}', function ($id) use ($app) {
 
-     if (isAuth($app) === 2) {
-        return $app->json(array('error' => 'not authorized'), 405);
+     if (!isAdmin($app)) {
+        return $app->json(array('no admin'), 405);
     }
 
     $result = $app['db']->update('users', array(
