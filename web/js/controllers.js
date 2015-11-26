@@ -2,38 +2,30 @@ var tt = angular.module('tt', ['ui.router', 'ngCookies']);
 
 tt.controller('TaskController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
 
-$scope.gotoUsers = function(){$state.go('users');};
+        $scope.gotoUsers = function () {
+            $state.go('users');
+        };
 
         $scope.isAuthUser = function () {
 
             $http.get('api/checkuser')
-                    .success(function (data, status) {                        
+                    .success(function (data, status) {
                     })
                     .error(function (data) {
                         $state.go('login');
                     });
         };
-        
-        $scope.isAuthUser();
-        
+
         $scope.isAdmin = function () {
 
             $http.get('api/checkadmin')
                     .success(function (data, status) {
-                       return true;
+                        return true;
                     })
                     .error(function (data) {
                         return false;
                     });
         };
-
-        $scope.show = true;
-
-        $scope.isDisabled = function () {
-            return (!$scope.curTask.title || !$scope.curTask.author || !$scope.curTask.assigner);
-        };
-
-        $scope.curTask = {};
 
         $scope.getTasks = function () {
 
@@ -47,7 +39,12 @@ $scope.gotoUsers = function(){$state.go('users');};
                         $scope.error = status;
                     });
         };
-        $scope.getTasks();
+        
+        $scope.isDisabled = function () {
+            return (!$scope.curTask.title || !$scope.curTask.author || !$scope.curTask.assigner);
+        };
+
+        $scope.curTask = {};
 
         $scope.putTask = function (curTask) {
             $http.put('/api/puttask', curTask)
@@ -92,13 +89,11 @@ $scope.gotoUsers = function(){$state.go('users');};
     }]);
 
 tt.controller('AdminController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-        $scope.show = true;
-
         $scope.isAuthUser = function () {
 
             $http.get('api/checkadmin')
                     .success(function (data, status) {
-                        
+
                     })
                     .error(function (data) {
                         $state.go('login');
