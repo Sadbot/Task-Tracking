@@ -1,10 +1,10 @@
 <div class="content" ng-controller="LoginController as loginCtrl">
     
-    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.user, loginCtrl.pass)" novalidate>
+    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
 
         <fieldset class="form-group">
             <label for="login">Login</label>
-            <input type="text" ng-model="loginCtrl.user" name="login">
+            <input type="text" ng-model="loginCtrl.login" name="login">
         </fieldset>
 
         <fieldset class="form-group">

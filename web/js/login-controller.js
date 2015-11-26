@@ -1,52 +1,80 @@
 
 
-angular
-        .module('tt')
-        .controller('LoginController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-                
-                var userObj = this;
-                
-                this.login = '';
-                this.pass = '';
-                
-                this.setUser = function(login, pass){
-                    userObj.login = login;
-                    userObj.pass = pass;
-                }
+var loginModule = angular.module('tt');
 
-                this.getUser = function(){
-                    return {
-                        login: userObj.login,
-                        pass: userObj.pass,
-                    };
-                };
+loginModule.service('LoginService', function ($http, $cookies) {
 
-                this.authUser = function (login,pass) {
-                    
-                    userObj.setUser(login,pass);
-                    
-                    $http.post('/api/auth', angular.toJson(userObj.getUser()))
-                            .success(function (data) {
-                                $cookies.put('login', data.login);
-                                $cookies.put('_token', data._token);
+    var ls = this;
+    this.user = {};
 
-                                $state.go('tasks');
-                            })
-                            .error(function (data, status) {
-                                $scope.error = data;
-                            });
-                };
+    this.setUser = function (login, pass) {
+        ls.user = {
+            login: login,
+            pass: pass,
+        };
+    };
 
+    this.getUser = function () {
+        return ls.user;
+    };
 
+    this.isRequiredUser = function (login, pass) {
+        if (ls.user.login === login && ls.user.pass === pass)
+            return true;
+        return false;
+    };
 
-                this.logOut = function () {
+    this.setCookies = function () {
+        if (ls.getUser.length){
+            $cookies.put('user', ls.user.login);
+            $cookies.put('_token', ls.user.pass);
+        }
+        
+    };
 
-                    $cookies.remove('login');
-                    $cookies.remove('_token');
-                    $cookies.remove('role');
+    this.removeCookies = function () {
+        $cookies.remove('user');
+        $cookies.remove('_token');
+    };
 
-                    $state.go('login');
-                };
+    this.removeUser = function () {
+        ls.user = {};
+    };
 
+});
 
-            }]);
+loginModule.controller('LoginController', ['$http', 'LoginService', function ($http,LoginService) {
+
+        var lc = this;
+
+        this.login = '';
+        this.pass = '';
+
+        this.getUser = function () {
+            return {
+                login: lc.login,
+                pass: lc.pass,
+            };
+        };
+
+        this.authUser = function (login, pass) {      
+            
+            console.log(LoginService.getUser());
+            
+            $http.post('/api/auth', angular.toJson(lc.getUser()))
+                    .success(function (data) {
+                        LoginService.setUser(data.login, data._token);
+                        LoginService.setCookies();
+                    });
+        };
+
+        this.isLoggedIn = function () {
+            LoginService.isRequiredUser(lc.login, lc.pass);
+        };
+
+        this.logOut = function () {
+            LoginService.removeUser();
+            LoginService.removeCookies();
+        };
+
+    }]);
