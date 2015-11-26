@@ -1,78 +1,80 @@
-<input type="button" ui-sref="users" value="Watch users" class="switch">
+<div class="content" ng-controller="TaskController" ng-init="isAuthUser();getTasks();">
+
+    <button ng-controller="LoginController" ng-click='logOut()'>Log out</button>
+    <input class="switch" type="button" ui-sref="users" value="Users">
 <table>
     <thead>
         <tr class="filter">
             <td><input type='text' ng-model="Tsearch.title" placeholder="Search by title" /></td>
             <td><input type='text' ng-model="Tsearch.date" placeholder="Search by date"/></td>
             <td>
-                <select ng-model="Tsearch.author" ng-init="0" placeholder="users">
+                <select ng-model="Tsearch.author" ng-options="user.id as user.login for user in users" placeholder="users">
                     <option value="">***</option>
-                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
             <td>
-                <select ng-model="Tsearch.assigner" ng-init="0" >
+                <select ng-model="Tsearch.assigner" ng-options="user.id as user.login for user in users">
                     <option value="">***</option>
-                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
                 </select>
             </td>
-            <td><input type="button" class="clear"></td>
+            <td>
+                <!--<input type="button" class="clear">-->                
+            </td>
         </tr>
         <tr class="sort">
-            <td ng-click="TsortType = 'title'; TsortReverse = !TsortReverse">title</td>
-            <td ng-click="TsortType = 'created'; TsortReverse = !TsortReverse">date</td>
-            <td ng-click="TsortType = 'author'; TsortReverse = !TsortReverse">author</td>
-            <td ng-click="TsortType = 'assigner'; TsortReverse = !TsortReverse">assigner</td>
+            <td ng-click="TsortType = 'title';
+                TsortReverse = !TsortReverse">title</td>
+            <td ng-click="TsortType = 'created';
+                TsortReverse = !TsortReverse">date</td>
+            <td ng-click="TsortType = 'author';
+                TsortReverse = !TsortReverse">author</td>
+            <td ng-click="TsortType = 'assigner';
+                TsortReverse = !TsortReverse">assigner</td>
+            <td>status</td>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="task in tasks| filter : Tsearch | orderBy: TsortType: TsortReverse" ng-hide="task.status == 0">
-            <td> 
-                {{task.title}}
+        <tr ng-repeat="task in tasks| filter : Tsearch | orderBy: TsortType: TsortReverse">
+            <!--ng-hide="task.status == 0"-->
+            <td ng-bind="task.title">
+            </td>
+            <td ng-bind="task.created">
+            </td>
+            <td ng-bind="asUser(task.author)">
+            </td>
+            <td ng-bind="asUser(task.assigner)">
+            </td>
+            <td ng-bind="asStatus(task.status)">
             </td>
             <td>
-                {{task.created | date:"d MMM yyyy H:mm"}}
-            </td>
-            <td>
-                {{users[task.author].login}}
-            </td>
-            <td>
-                {{users[task.assigner].login}}
-            </td>
-            <td>
-                <input type="button" ng-click="delTask($index)" class="check">
+                <input type="button" ng-click="closeTask(task.id);getTasks();" class="check">
             </td>
 
         </tr>
-        <tr>
+<!--        <tr>
             <td>
-                <input type="text" ng-model="title" placeholder="Add task title">
+                {{curTask.title}}
             </td>
             <td>
-
+                {{curTask.created}}
             </td>
             <td>
-                <select ng-model="tauthor">
-                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
-                </select>
+                {{curTask.author}}
             </td>
             <td>
-                <select ng-model="tassigner">
-                    <option ng-repeat="user in users" value="{{$index}}">{{user.login}}</option>
-                </select>
+                {{curTask.assigner}}
             </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <input class="switch" type="button" ng-click="getTasks()" value="getTasks()">
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <input type="button" ng-click="addTask()" class="add">
-            </td>
-        </tr>
+        </tr>-->
     </tbody>
 </table>
+
+<div ng-bind="error"></div>
+
+<form ng-submit="putTask(curTask);getTasks();">
+    <input type="text" ng-model="curTask.title" placeholder="Add task title">
+    <select ng-options="user.id as user.login for user in users" ng-model="curTask.author"></select>
+    <select ng-options="user.id as user.login for user in users" ng-model="curTask.assigner"></select>
+    <input type="submit" value="Put task" ng-disabled="isDisabled()"/>
+    
+</form>
+</div>

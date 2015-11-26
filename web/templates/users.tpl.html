@@ -1,39 +1,45 @@
-<input type="button" ui-sref="tasks" value="Watch tasks" class="switch">
+<div class="content" ng-controller="AdminController">
+<button ng-controller="LoginController" ng-click='logOut()'>Log out</button>
+<button ui-sref="tasks">Tasks</button>
+
 <table>
     <thead>
         <tr class="filter sort">
+            <td ng-click="UsortType = 'id'; UsortReverse = !UsortReverse">ID</td>
             <td colspan="2"><input type='text' ng-model="Usearch.login" placeholder="Search by login" /></td>
-            <td ng-click="UsortType = 'login'; UsortReverse = !UsortReverse" colspan="2" class="buttons"></td>
+            <td ng-click="UsortType = 'login'; UsortReverse = !UsortReverse" colspan="2" class="buttons">pass</td>
+            <td>is_deleted</td>
+            <td>role</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" ng-show="user.is_deleted == 0">
-            <td>
-                {{user.login}}
+        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" >
+            <!--ng-show="user.is_deleted == 0">-->
+            <td ng-bind="user.id">
             </td>
-            <td>
-                {{user.pass}}
+            <td ng-bind="user.login">
             </td>
-            <td>
-                <input type="button" ng-click="delUser($index)" class="check buttons">
+            <td ng-bind="user.pass">
             </td>
-
-        </tr>
-        <tr>
-            <td>
-                <input type="text" ng-model="login" placeholder="Add username">
+            <td ng-bind="user.is_deleted">
             </td>
+            <td ng-bind="user.role">
+            </td>            
             <td>
-                <input type="text" ng-model="password" placeholder="Password">
-            </td>
-            <td>
-                <input type="button" ng-click="addUser()" class="add buttons">
-            </td>
-        </tr>
-        <tr>
-            <td>
-            <input class="switch" type="button" ng-click="getUsers()" value="getUsers()">
+                <input type="button" class="check buttons" ng-click="delUser(user.id);getUsers();" >
             </td>
         </tr>
     </tbody>
 </table>
+
+
+
+<form ng-submit="putUser(curUser);getUsers();">
+    <input type="text" ng-model="curUser.login"/>
+    <input type="password" ng-model="curUser.pass"/>
+    <select ng-model="curUser.role"><option value="0">user</option><option value="1">admin</option></select>
+    <input type="submit" value="submit"/>
+</form>
+
+</div>

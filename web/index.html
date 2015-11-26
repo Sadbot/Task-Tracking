@@ -1,40 +1,19 @@
 <!doctype html>
-<html >
+<html ng-app="tt">
     <head>
         <meta charset="utf-8">
         <title>Task Tracker</title>
         <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
-        <link rel="stylesheet" href="css/material.css">
-
-
+        <!--<link rel="stylesheet" href="css/material.css">-->
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js" type="text/javascript"></script>
         <script src="js/angular-ui-router.min.js"></script>
-        <!--<script src="node_modules/angular-route/angular-route.js"></script>-->
-<!--        <script src="js/ngRoute.js"></script>        
-        <script src="node_modules/angular-route/angular-route.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/controller.js"></script>
-        <script src="js/ngStorage.js"></script>         -->
-<!--                КОНТРОЛЛЕР ОТВЕЧАЕТ ТОЛЬКО ЗА ОТРИСОВКУ.
-                ВНУТРЕННЕ ИМЯ: TaskVisual                                               -->
-        <script src="js/TaskVisual.js"></script>
-
+        <script src="js/controllers.js"></script>        
     </head>   
-    <body ng-controller="TaskController">
-
-            <br>
-
+    <body>
+        <div>
             <div ui-view></div>
-<!--            <div ng-show="show==true">
-                <div show-tasks></div>
-            </div>
-            <div ng-show="show==false">
-                <div show-users></div>
-            </div>-->
         </div>            
-
-        <script src="node_modules/angular/angular.js"></script>
-        <script src="node_modules/angular-route/angular-route.js"></script>
-
-        <script src="js/controller.js"></script>
     </body>
 </html>
