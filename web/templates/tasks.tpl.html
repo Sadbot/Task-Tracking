@@ -47,7 +47,7 @@
             <td ng-bind="asStatus(task.status)">
             </td>
             <td>
-                <input type="button" ng-click="closeTask(task.id);getTasks();" class="check">
+                <input type="button" ng-click="TaskController.closeTask(task.id);TaskController.getTasks();" class="check">
             </td>
 
         </tr>
@@ -70,11 +70,11 @@
 
 <div ng-bind="error"></div>
 
-<form ng-submit="putTask(curTask);getTasks();">
+<form ng-submit="TaskController.putTask(curTask);TaskController.getTasks();">
     <input type="text" ng-model="curTask.title" placeholder="Add task title">
-    <select ng-options="user.id as user.login for user in users" ng-model="curTask.author"></select>
-    <select ng-options="user.id as user.login for user in users" ng-model="curTask.assigner"></select>
-    <input type="submit" value="Put task" ng-disabled="isDisabled()"/>
+    <select ng-options="user.id as user.login for user in users" ng-model="TaskController.curTask.author"></select>
+    <select ng-options="user.id as user.login for user in users" ng-model="TaskController.curTask.assigner"></select>
+    <input type="submit" value="Put task" ng-disabled="TaskController.isDisabled()"/>
     
 </form>
 </div>

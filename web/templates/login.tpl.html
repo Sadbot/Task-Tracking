@@ -1,10 +1,22 @@
-<div class="content" ng-controller="LoginController">
-    <form ng-submit="authUser(user, pass)">
-        login:
-        <input type="text" ng-model="user" name="login">
-        pass:
-        <input type="password" ng-model="pass" name="pass">
-        <input type="submit" value="submit">
+<div class="content" ng-controller="LoginController as loginCtrl">
+    
+    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.user, loginCtrl.pass)" novalidate>
+
+        <fieldset class="form-group">
+            <label for="login">Login</label>
+            <input type="text" ng-model="loginCtrl.user" name="login">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label for="pass">Password</label>
+            <input type="password" ng-model="loginCtrl.pass" name="pass">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <input type="submit" value="submit">
+        </fieldset>
+
     </form>
+
 </div>
 

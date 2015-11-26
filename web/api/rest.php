@@ -31,11 +31,10 @@ $app->post('/auth', function (Request $request) use ($app) {
         'login' => htmlspecialchars(strtolower($login)),
         'pass' => sha1($pass),
     ));
-
+    
     if (!$check) {
         return $app->json(array('error' => 'User is not found'), 401);
     }
-//    return new Symfony\Component\HttpFoundation\Response(var_dump($check));
 
     return $app->json(array(
                 'login' => $check[0]['login'],
@@ -43,7 +42,8 @@ $app->post('/auth', function (Request $request) use ($app) {
                     ), 201);
 });
 /*
- * @return 1 - in case of user 2 - in case of admin 0(false) - in case of unauthorized
+ * @Apllication $app
+ * @return boolean
  */
 function isAuth(Application $app) {
     if(empty($_COOKIE['_token']) || empty($_COOKIE['login'])){
@@ -134,7 +134,7 @@ $app->get('/gettasks', function (Application $app) {
 /*
  * @request In request must be 
  */
-$app->put('/puttask', function (Request $request) use ($app) {
+$app->post('/addtask', function (Request $request) use ($app) {
 
     if (!isAuth($app)) {
         return $app->json(array('error' => 'not authorized'), 405);
@@ -162,7 +162,7 @@ $app->put('/puttask', function (Request $request) use ($app) {
     return $app->json($result, 202);
 });
 
-$app->get('/closetask/{id}', function ($id) use ($app) {
+$app->put('/closetask/{id}', function ($id) use ($app) {
 
     if (!isAuth($app)) {
         return $app->json(array('error' => 'not authorized'), 405);
@@ -198,7 +198,7 @@ $app->get('/getusers', function (Application $app) {
     return $app->json($users, 200);
 });
 
-$app->put('/putuser', function (Request $request) use ($app) {
+$app->post('/adduser', function (Request $request) use ($app) {
 
      if (!isAdmin($app)) {
         return $app->json(array('error' => 'no admin'), 405);
@@ -225,7 +225,7 @@ $app->put('/putuser', function (Request $request) use ($app) {
     return $app->json($result, 201);
 });
 
-$app->get('/deluser/{id}', function ($id) use ($app) {
+$app->put('/deluser/{id}', function ($id) use ($app) {
 
      if (!isAdmin($app)) {
         return $app->json(array('no admin'), 405);
