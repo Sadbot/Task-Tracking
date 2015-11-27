@@ -7,7 +7,7 @@ angular
                         .state('login', {
                             url: "/login",
                             templateUrl: "templates/login.tpl.html",
-                            controller: "LoginController"
+                            controller: "LoginController",
                         })
                         .state('tasks', {
                             url: "/tasks",
@@ -17,7 +17,7 @@ angular
                         })
                         .state('users', {
                             url: "/users",
-                            templateUrl: "templates/users.tpl.html",
+                            templateUrl: "templates/admin.tpl.html",
                             controller: "AdminController",
                             authenticate: true
                         });

@@ -1,16 +1,15 @@
-
-
 var loginModule = angular.module('tt');
 
 loginModule.service('LoginService', function ($http, $cookies) {
 
     var ls = this;
+
     this.user = {};
 
-    this.setUser = function (login, pass) {
+    this.setUser = function (login, _token) {
         ls.user = {
             login: login,
-            pass: pass,
+            _token: _token
         };
     };
 
@@ -18,22 +17,20 @@ loginModule.service('LoginService', function ($http, $cookies) {
         return ls.user;
     };
 
-    this.isRequiredUser = function (login, pass) {
-        if (ls.user.login === login && ls.user.pass === pass)
+    this.isLoggedIn = function () {
+        if (ls.user.login === $cookies.get('login') && ls.user._token === $cookies.get('_token'))
             return true;
         return false;
     };
 
     this.setCookies = function () {
-        if (ls.getUser.length){
-            $cookies.put('user', ls.user.login);
-            $cookies.put('_token', ls.user.pass);
-        }
-        
+        $cookies.put('login', ls.user.login);
+        $cookies.put('_token', ls.user._token);
+
     };
 
     this.removeCookies = function () {
-        $cookies.remove('user');
+        $cookies.remove('login');
         $cookies.remove('_token');
     };
 
@@ -43,38 +40,36 @@ loginModule.service('LoginService', function ($http, $cookies) {
 
 });
 
-loginModule.controller('LoginController', ['$http', 'LoginService', function ($http,LoginService) {
+loginModule.controller('LoginController', ['$http', 'LoginService', function ($http, LoginService) {
 
-        var lc = this;
+    var lc = this;
 
-        this.login = '';
-        this.pass = '';
+    this.login = '';
+    this.pass = '';
 
-        this.getUser = function () {
-            return {
-                login: lc.login,
-                pass: lc.pass,
-            };
+    this.getUser = function () {
+        return {
+            login: lc.login,
+            pass: lc.pass
         };
+    };
 
-        this.authUser = function (login, pass) {      
-            
-            console.log(LoginService.getUser());
-            
-            $http.post('/api/auth', angular.toJson(lc.getUser()))
-                    .success(function (data) {
-                        LoginService.setUser(data.login, data._token);
-                        LoginService.setCookies();
-                    });
-        };
+    this.authUser = function (login, pass) {
 
-        this.isLoggedIn = function () {
-            LoginService.isRequiredUser(lc.login, lc.pass);
-        };
+        $http.post('/api/auth', angular.toJson(lc.getUser()))
+            .success(function (data) {
+                LoginService.setUser(data.login, data._token);
+                LoginService.setCookies(data.login, data._token);
+            });
+    };
 
-        this.logOut = function () {
-            LoginService.removeUser();
-            LoginService.removeCookies();
-        };
+    this.isLoggedIn = function () {
+        return LoginService.isLoggedIn();
+    };
 
-    }]);
+    this.logOut = function () {
+        LoginService.removeUser();
+        LoginService.removeCookies();
+    };
+
+}]);

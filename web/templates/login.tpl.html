@@ -1,15 +1,18 @@
 <div class="content" ng-controller="LoginController as loginCtrl">
-    
-    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
+
+    <menu-directive></menu-directive>
+
+    <form name="loginForm"
+          ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
 
         <fieldset class="form-group">
             <label for="login">Login</label>
-            <input type="text" ng-model="loginCtrl.login" name="login">
+            <input id="login" type="text" ng-model="loginCtrl.login" />
         </fieldset>
 
         <fieldset class="form-group">
             <label for="pass">Password</label>
-            <input type="password" ng-model="loginCtrl.pass" name="pass">
+            <input id="pass" type="password" ng-model="loginCtrl.pass" />
         </fieldset>
 
         <fieldset class="form-group">

@@ -14,8 +14,6 @@ angular
                             });
                 };
 
-                $scope.isAuthUser();
-
                 $scope.isDisabled = function () {
                     return (!$scope.title || !$scope.assigner || !$scope.author);
                 };
@@ -32,8 +30,6 @@ angular
                                 $scope.error = data;
                             });
                 };
-
-                $scope.getUsers();
 
                 $scope.putUser = function (curUser) {
                     $http.post('/api/adduser', curUser)

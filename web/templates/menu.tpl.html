@@ -1,0 +1,14 @@
+<div ng-controller="LoginController as loginCtrl">
+    <a ui-sref="tasks">Tasks</a>
+
+    <a ui-sref="users">Users</a>
+
+    <div ng-hide="loginCtrl.isLoggedIn()">
+        <a ng-click="loginCtrl.logOut()">Logout</a>
+    </div>
+
+    <div ng-show="loginCtrl.isLoggedIn()">
+        <a ui-sref="login">Login</a>
+    </div>
+
+</div>

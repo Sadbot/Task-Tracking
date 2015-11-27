@@ -1,6 +1,5 @@
-<div class="content" ng-controller="AdminController">
-<button ng-controller="LoginController" ng-click='logOut()'>Log out</button>
-<button ui-sref="tasks">Tasks</button>
+<div class="content" ng-controller="AdminController" ng-init="isAuthUser();getUsers();">
+    <menu-directive></menu-directive>
 
 <table>
     <thead>
