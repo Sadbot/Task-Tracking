@@ -1,7 +1,7 @@
-<a ui-sref="tasks" >Tasks</a>
+<a ui-sref="tasks" ng-hide="$state.$current == 'tasks'">Tasks</a>
 
-<a ui-sref="users">Users</a>
+<a ui-sref="users" ng-hide="$state.$current == 'users'">Users</a>
 
 <a  ui-sref="login" ng-hide="loginCtrl.isLoggedIn()" ng-click="loginCtrl.logOut()">Logout</a>
 
-<a ui-sref="login" ng-show="loginCtrl.isLoggedIn()">Login</a>
+<a ui-sref="login" ng-show="loginCtrl.isLoggedIn() && $state.$current == 'login'">Login</a>

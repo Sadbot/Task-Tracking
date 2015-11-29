@@ -5,15 +5,38 @@
     <form name="loginForm"
           ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
 
-            <label for="login">Login</label>
-            <input id="login" type="text" ng-model="loginCtrl.login" />
+        <!--<div ng-show="loginForm.login.$error.required" style="color:maroon" role="alert">-->
+            <!--<div >You did not enter a field</div>-->
+        <!--</div>-->
 
-            <label for="pass">Password</label>
-            <input id="pass" type="password" ng-model="loginCtrl.pass" />
+        <div>
+        <label for="login">Login</label>
+        <input id="login"
+               name="login"
+               type="text"
+               ng-model="loginCtrl.login"
+               required
+                />
+        </div>
 
-            <input type="submit" value="submit">
+
+        <!--<div ng-show="loginForm.pass.$error.required" style="color:maroon" role="alert">-->
+            <!--<div >You did not enter a field</div>-->
+        <!--</div>-->
+
+
+        <div>
+        <label for="pass">Password</label>
+        <input id="pass"
+               name="pass"
+               type="password"
+               ng-model="loginCtrl.pass"
+               required
+        />
+        </div>
+
+        <input type="submit" value="submit">
 
     </form>
 
 </div>
-

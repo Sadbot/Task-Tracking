@@ -4,6 +4,13 @@ Installation instructions:
 1. Install composer, npm. Fork this code.
 2. Install silex with command:
     composer require silex/silex
-3. Next install mysql or another DB that PHP:PDO(more info: http://php.net/manual/ru/book.pdo.php) can connect.
+3. Check official manual web-server configuration for silex framework: http://silex.sensiolabs.org/doc/web_servers.html
+4. Next install mysql or another DB that PHP:PDO(more info: http://php.net/manual/ru/book.pdo.php) can connect.
     resource sqldump in tt.sql file
-4. Don't forget to edit DB connector configuration in api/config.php
+5. Don't forget to edit DB connector configuration in api/config.php
+6. Install via NPM next modules into /web directory:
+    angular
+    angular-ui-route
+    angular-cookies
+
+To enable tests you must install phpunit.

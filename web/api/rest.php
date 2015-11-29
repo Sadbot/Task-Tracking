@@ -176,7 +176,7 @@ $app->put('/closetask/{id}', function ($id) use ($app) {
 //    }
 
     return $app->json(array('message' => 'OK'), 202);
-});
+})->assert('id', '\d+');
 
 /*
  * Admin Controller
@@ -239,6 +239,6 @@ $app->put('/deluser/{id}', function ($id) use ($app) {
 //    }
 
     return $app->json($result, 201);
-});
+})->assert('id', '\d+');
 
 $app->run();
