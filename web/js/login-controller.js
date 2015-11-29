@@ -40,7 +40,7 @@ loginModule.service('LoginService', function ($http, $cookies) {
 
 });
 
-loginModule.controller('LoginController', ['$http', 'LoginService', function ($http, LoginService) {
+loginModule.controller('LoginController', ['$http', '$state', 'LoginService', function ($http, $state, LoginService) {
 
     var lc = this;
 
@@ -60,6 +60,7 @@ loginModule.controller('LoginController', ['$http', 'LoginService', function ($h
             .success(function (data) {
                 LoginService.setUser(data.login, data._token);
                 LoginService.setCookies(data.login, data._token);
+                $state.go('tasks');
             });
     };
 

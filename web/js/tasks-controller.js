@@ -1,93 +1,78 @@
 'user strict';
 
 angular
-        .module('tt')
-        .controller('TaskController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
+    .module('tt')
+    .controller('TaskController', ['$http', '$state', 'LoginService', function ($http, $state, LoginService) {
 
-                var taskCtrl = this;
+                var tc = this;
 
-                $scope.gotoUsers = function () {
-                    $state.go('users');
+                this.tasks = {};
+                this.users = {};
+                this.curTask = {};
+
+                //-----Filters-------
+
+                this.isDisabled = function () {
+                    return (!tc.curTask.title || !tc.curTask.author || !tc.curTask.assigner);
                 };
 
-                $scope.isAuthUser = function () {
-
-                    $http.get('api/checkuser')
-                            .success(function (data, status) {
-                            })
-                            .error(function (data) {
-                                $state.go('login');
-                            });
+                this.gotoUsers = function () {
+                    tc.go('users');
                 };
 
-                $scope.isAdmin = function () {
+                //-----Main methods------
 
-                    $http.get('api/checkadmin')
-                            .success(function (data, status) {
-                                return true;
-                            })
-                            .error(function (data) {
-                                return false;
-                            });
+                this.isLoggedIn = function () {
+                    return LoginService.isLoggedIn();
                 };
 
-                $scope.getTasks = function () {
+                this.getTasks = function () {
 
                     $http.get('/api/gettasks')
-                            .success(function (data, status) {
-                                $scope.tasks = data.tasks;
-                                $scope.users = data.users;
-                                $scope.status = status;
-                            })
-                            .error(function (data, status) {
-                                $scope.error = status;
-                            });
+                        .success(function (data) {
+                            tc.tasks = data.tasks;
+                            tc.users = data.users;
+                        })
+                        .error(function(data) {
+                            $state.go('login');
+                        });
                 };
 
-                $scope.isDisabled = function () {
-                    return (!$scope.curTask.title || !$scope.curTask.author || !$scope.curTask.assigner);
-                };
 
-                $scope.curTask = {};
-
-                $scope.putTask = function (curTask) {
+                this.putTask = function (curTask) {
                     $http.post('/api/addtask', curTask)
-                            .success(function (data, status) {
-                                $scope.data = data;
-                                $scope.status = status;
-                            })
-                            .error(function (data, status) {
-                                $scope.error = status;
-                            });
-                    $scope.curTask = {};
+                        .success(function (data) {
+                            tc.data = data;
+                        });
+                    tc.curTask = {};
                 };
 
-                $scope.closeTask = function (current_id) {
+                this.closeTask = function (current_id) {
                     $http.put('/api/closetask/' + current_id)
-                            .success(function (data, status) {
-                                $scope.data = data;
-                                $scope.status = status;
-                            })
-                            .error(function (data) {
-                                $scope.error = status;
-                            });
+                        .success(function (data) {
+
+                        })
+                        .error(function (data) {
+
+                        });
                 };
 
-                $scope.asUser = function (id) {
+                this.asUser = function (id) {
                     var user;
-                    for (var i = 0; i < $scope.users.length; i++) {
-                        if (id == $scope.users[i].id) {
-                            user = $scope.users[i].login;
+                    for (var i = 0; i < tc.users.length; i++) {
+                        if (id == tc.users[i].id) {
+                            user = tc.users[i].login;
                         }
                     }
                     return user;
                 };
 
-                $scope.asStatus = function (status) {
+                this.asStatus = function (status) {
                     if (status == 1)
                         return 'open';
                     else
                         return 'closed';
                 };
 
-            }]);
+
+    }]);

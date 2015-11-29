@@ -5,7 +5,8 @@ angular.module('tt')
         return {
             element: 'E',
             templateUrl: 'templates/menu.tpl.html',
-            controller: 'LoginController'
+            controller: 'LoginController',
+            controllerAs: 'loginCtrl'
 
         };
     }
