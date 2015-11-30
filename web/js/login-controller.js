@@ -1,3 +1,5 @@
+'use strict';
+
 var loginModule = angular.module('tt');
 
 loginModule.service('LoginService', function ($http, $cookies) {

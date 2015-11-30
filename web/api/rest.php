@@ -3,8 +3,8 @@
 $loader = require_once __DIR__ . '/../../vendor/autoload.php';
 
 // Load Database (extend PDO) class. Path = /DB/Database.php
-$loader->addPsr4('DB\\', __DIR__ . '/DB');
-
+//$loader->addPsr('DB\\', __DIR__ . '/DB');
+require_once __DIR__.'/DB/Database.php';
 
 // Load DB configuration file /config.php
 require_once __DIR__ . '/config.php';
@@ -56,7 +56,7 @@ function isAuth(Application $app) {
         'login' => $login,
         'pass' => $pass,
     ));
-    
+
     if (!$user) {
         return false;
     }
@@ -74,7 +74,7 @@ function isAdmin(Application $app) {
         'login' => $login,
         'pass' => $pass,
     ));
-    
+
     if (!$user) {
         return false;
     }
