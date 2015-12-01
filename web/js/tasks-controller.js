@@ -1,8 +1,8 @@
 'user strict';
 
 angular
-    .module('tt')
-    .controller('TaskController', ['$http', '$state', 'LoginService', function ($http, $state, LoginService) {
+        .module('tt')
+        .controller('TaskController', ['$http', '$state', 'LoginService', function ($http, $state, LoginService) {
 
                 var tc = this;
 
@@ -29,32 +29,32 @@ angular
                 this.getTasks = function () {
 
                     $http.get('/api/gettasks')
-                        .success(function (data) {
-                            tc.tasks = data.tasks;
-                            tc.users = data.users;
-                        })
-                        .error(function(data) {
-                            $state.go('login');
-                        });
+                            .success(function (data) {
+                                tc.tasks = data.tasks;
+                                tc.users = data.users;
+                            })
+                            .error(function (data) {
+                                $state.go('login');
+                            });
                 };
 
 
                 this.putTask = function (curTask) {
                     $http.post('/api/addtask', curTask)
-                        .success(function (data) {
-                            tc.data = data;
-                        });
+                            .success(function (data) {
+                                tc.data = data;
+                            });
                     tc.curTask = {};
                 };
 
                 this.closeTask = function (current_id) {
                     $http.put('/api/closetask/' + current_id)
-                        .success(function (data) {
+                            .success(function (data) {
 
-                        })
-                        .error(function (data) {
+                            })
+                            .error(function (data) {
 
-                        });
+                            });
                 };
 
                 this.asUser = function (id) {
@@ -75,4 +75,4 @@ angular
                 };
 
 
-    }]);
+            }]);

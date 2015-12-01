@@ -3,7 +3,7 @@
 angular
         .module('tt')
         .controller('AdminController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-                $scope.isAuthUser = function () {
+                this.isAuthUser = function () {
 
                     $http.get('api/checkadmin')
                             .success(function (data, status) {
@@ -14,13 +14,13 @@ angular
                             });
                 };
 
-                $scope.isDisabled = function () {
-                    return (!$scope.title || !$scope.assigner || !$scope.author);
+                this.isDisabled = function () {
+                    return (!$scope.curUser.login || !$scope.curUser.pass || !$scope.curUser.role);
                 };
 
                 $scope.curUser = {};
 
-                $scope.getUsers = function () {
+                this.getUsers = function () {
                     $http.get('/api/getusers')
                             .success(function (data, status) {
                                 $scope.users = data;
@@ -31,7 +31,7 @@ angular
                             });
                 };
 
-                $scope.putUser = function (curUser) {
+                this.putUser = function (curUser) {
                     $http.post('/api/adduser', curUser)
                             .success(function (data, status) {
                                 $scope.data = data;
@@ -40,10 +40,10 @@ angular
                             .error(function (data) {
                                 $scope.error = data;
                             });
-                    $scope.curUser = {};
+                    this.curUser = {};
                 };
 
-                $scope.delUser = function (current_id) {
+                this.delUser = function (current_id) {
                     $http.put('/api/deluser/' + current_id)
                             .success(function (data, status) {
                                 $scope.data = data;

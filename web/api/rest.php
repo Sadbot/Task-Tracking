@@ -119,7 +119,7 @@ $app->get('/gettasks', function (Application $app) {
     }
 
     $tasks = $app['db']->select('SELECT id,title,status,created,author,assigner from tasks');
-    $users = $app['db']->select('SELECT id, login from users');
+    $users = $app['db']->select('SELECT id, login, is_deleted from users');
 
     if (!$tasks and ! $users) {
         $error = array('message' => 'The tasks were not found.');

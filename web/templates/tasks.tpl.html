@@ -1,11 +1,11 @@
 <div ng-controller="TaskController as taskCtrl" ng-init="taskCtrl.getTasks();">
-    
-    <a class="btn light-blue darken-3 z-depth-2" ui-sref="tasks" >Tasks</a>
-    <a class="btn light-blue darken-4 z-depth-1"  ui-sref="users" >Users</a>
-    <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
-        <i class="material-icons right">exit_to_app</i>Logout
-    </a>
-    
+    <div class="content" style="margin: 0px 22px 0px 22px;">
+        <a class="btn light-blue darken-3 z-depth-2" ui-sref="tasks" >Tasks</a>
+        <a class="btn light-blue darken-4 z-depth-1"  ui-sref="users" >Users</a>
+        <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
+            <i class="material-icons right">exit_to_app</i>Logout
+        </a>
+    </div>
     <div>
         <ul class="row">
             <!--ng-hide="task.status == 0"-->
@@ -72,7 +72,6 @@
             <select class="col l1 browser-default offset-l2" ng-options="user.id as user.login for user in taskCtrl.users" ng-model="taskCtrl.curTask.author">
             </select>
             <select class="col l1 browser-default" ng-options="user.id as user.login for user in taskCtrl.users" ng-model="taskCtrl.curTask.assigner" >
-                <i class="material-icon">account_circle</i>
             </select>
             <span class="col l1 offset-l1">
                 <button class="btn-floating btn-small light-blue darken-4" type="submit" value="" ng-disabled="taskCtrl.isDisabled()"><i class="material-icons">add</i></button>

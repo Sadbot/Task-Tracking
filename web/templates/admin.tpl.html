@@ -1,9 +1,11 @@
-<div ng-controller="AdminController" ng-init="isAuthUser();getUsers();">
-    <a class="btn light-blue darken-4 z-depth-1" ui-sref="tasks" >Tasks</a>
-    <a class="btn light-blue darken-3 z-depth-2"  ui-sref="users" >Users</a>
-    <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
-        <i class="material-icons right">exit_to_app</i>Logout
-    </a>
+<div ng-controller="AdminController as admCtrl" ng-init="admCtrl.isAuthUser();admCtrl.getUsers();">
+    <div class="content" style="margin: 0px 22px 0px 22px;">
+        <a class="btn light-blue darken-4 z-depth-1" ui-sref="tasks" >Tasks</a>
+        <a class="btn light-blue darken-3 z-depth-2"  ui-sref="users" >Users</a>
+        <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
+            <i class="material-icons right">exit_to_app</i>Logout
+        </a>
+    </div>
     <ul class="row l12">
         <li class="filter sort">
             <span class="col l1"  ng-click="UsortType = 'id'; UsortReverse = !UsortReverse">ID</span>
@@ -26,14 +28,14 @@
             <span ng-bind="user.role" class="col l1" >
             </span>            
             <span class="col l1" >
-                <button ng-click="delUser(user.id);getUsers();" class="btn-floating btn-small  light-blue darken-4"><i class="material-icons">check</i>
+                <button ng-click="admCtrl.delUser(user.id);admCtrl.getUsers();" class="btn-floating btn-small  light-blue darken-4"><i class="material-icons">check</i>
                 </button>
             </span>
         </li>
     </ul>
     <div class="row l12">
         <span class="col l1">&nbsp;</span>
-        <form ng-submit="putUser(curUser);getUsers();">
+        <form ng-submit="admCtrl.putUser(curUser);admCtrl.getUsers();">
             <div class="input-field light-blue-text text-darken-4 col l4 offset-l2">
                 <input class="" id="user_name" type="text" ng-model="curUser.login" name="user_name"/>
                 <label for="user_name">Add username</label>
@@ -42,9 +44,9 @@
                 <input type="password" ng-model="curUser.pass" id="user_pass" name="user_pass"/>
                 <label for="user_pass">Add userpass</label>
             </div>
-            <select class="browser-default col l1 offset-l1" ng-model="curUser.role" class="input-field"><option value="0">user</option><option value="1">admin</option></select>
+            <select class="browser-default col l1 offset-l1" ng-model="curUser.role" ><option value="0">user</option><option value="1">admin</option></select>
             <span class=" col l1">
-                <button type="submit" value="submit" class="btn-floating btn-small light-blue darken-4"><i class="material-icons" style="float: right">add</i>
+                <button type="submit" value="submit" class="btn-floating btn-small light-blue darken-4" ng-disabled="admCtrl.isDisabled()"><i class="material-icons" style="float: right">add</i>
                 </button>
             </span>
         </form>
