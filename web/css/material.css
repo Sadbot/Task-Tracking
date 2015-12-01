@@ -4,7 +4,7 @@ html, body {
 }
 
 table {
-    text-align: center; 
+    text-align: left; 
     width:100%;}
 
 input[type=text] {
@@ -18,7 +18,7 @@ input[type=text] {
 select {
     width:100%;
     height: 32px;
-    background-color: #cfcfcf;
+    background-color: #2c73a2;
     border-width: 0px;
     text-align: center;
     color: #000;
@@ -42,7 +42,9 @@ input[type=button], button{
     padding:0px;
     border-radius:16px;
     border-width:0px;
-    background-color: #cfcfcf;
+    background-color: #2c73a2;
+    float: right;
+    margin-right:8px;
 
 }
 input[type=button].check, button.check{
@@ -59,10 +61,20 @@ input[type=button].clear, button.clear{
 }
 
 
-input[type=button].add, button.add{
+input[type=submit].add, button.add{
     background-image: url('add.png');
     background-position: center center;
     background-repeat: no-repeat;
+    float:right;
+    font-size: 28px;
+    text-align: center;
+    width: 32px;
+    height:32px;
+    padding:0px;
+    border-radius:16px;
+    border-width:0px;
+    background-color: #2c73a2;
+    margin-right:8px;
 }
 
 input[type=button].add[disabled], button.add[disabled]{
@@ -70,7 +82,7 @@ input[type=button].add[disabled], button.add[disabled]{
 }
 
 tr.sort td{
-    background-color: #cfcfcf;
+    background-color: #2c73a2;
     background-image: url('sort.png');
     background-position: right center;
     background-repeat: no-repeat;
@@ -79,7 +91,7 @@ tr.sort td{
 }
 
 tr.filter input{
-    background-color: #cfcfcf;
+    background-color: #2c73a2;
     border-radius: 0px;
     background-image: url('filter_list.png');
     background-position: right center;
@@ -93,18 +105,24 @@ tr.filter input{
 
 input[type=button].switch, button.switch{
     font-size: 20px;
-    text-align: left;
+    text-align: center;
     width: 160px;
     height:32px;
     padding:0px;
     border-radius:0px;
     border-width:0px;
-    background-color: #cfcfcf;
+    background-color: #2c73a2;
     background-image: url('swap_horiz.png');
     background-position: right center;
     background-repeat: no-repeat;
 }
 
-tr.buttons{
-    width: 32px;
+form select{
+	width:10%;
+        margin:0;
+}
+
+form input[type=text]{
+	width:55%;
+	margin-right:15%;
 }

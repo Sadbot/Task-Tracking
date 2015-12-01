@@ -1,7 +1,18 @@
-<a ui-sref="tasks" ng-hide="$state.$current == 'tasks'">Tasks</a>
+<!--<a class="waves-effect waves-light btn">Stuff</a>
+<a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
+<a class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>button</a>-->
 
-<a ui-sref="users" ng-hide="$state.$current == 'users'">Users</a>
 
-<a  ui-sref="login" ng-hide="loginCtrl.isLoggedIn()" ng-click="loginCtrl.logOut()">Logout</a>
 
-<a ui-sref="login" ng-show="loginCtrl.isLoggedIn() && $state.$current == 'login'">Login</a>
+<a class="btn light-blue darken-4" ui-sref="tasks" >Tasks</a>
+
+<a class="btn light-blue darken-4"  ui-sref="users" >Users</a>
+
+<a class="btn light-blue darken-4"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
+    <i class="material-icons right">
+        exit_to_app
+    </i>
+    Logout
+</a>
+
+

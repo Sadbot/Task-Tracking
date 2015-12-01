@@ -1,44 +1,52 @@
-<div class="content" ng-controller="AdminController" ng-init="isAuthUser();getUsers();">
-    <menu-directive></menu-directive>
+<div ng-controller="AdminController" ng-init="isAuthUser();getUsers();">
+    <a class="btn light-blue darken-4 z-depth-1" ui-sref="tasks" >Tasks</a>
+    <a class="btn light-blue darken-3 z-depth-2"  ui-sref="users" >Users</a>
+    <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
+        <i class="material-icons right">exit_to_app</i>Logout
+    </a>
+    <ul class="row l12">
+        <li class="filter sort">
+            <span class="col l1"  ng-click="UsortType = 'id'; UsortReverse = !UsortReverse">ID</span>
+            <span class="col l4" ><input type='text' ng-model="Usearch.login" placeholder="Search by login" /></span>
+            <span class="col l4" ng-click="UsortType = 'login'; UsortReverse = !UsortReverse" >pass</span>
+            <span class="col l1" >is_deleted</span>
+            <span class="col l1" >role</span>
 
-<table>
-    <thead>
-        <tr class="filter sort">
-            <td ng-click="UsortType = 'id'; UsortReverse = !UsortReverse">ID</td>
-            <td colspan="2"><input type='text' ng-model="Usearch.login" placeholder="Search by login" /></td>
-            <td ng-click="UsortType = 'login'; UsortReverse = !UsortReverse" colspan="2" class="buttons">pass</td>
-            <td>is_deleted</td>
-            <td>role</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" >
-            <!--ng-show="user.is_deleted == 0">-->
-            <td ng-bind="user.id">
-            </td>
-            <td ng-bind="user.login">
-            </td>
-            <td ng-bind="user.pass">
-            </td>
-            <td ng-bind="user.is_deleted">
-            </td>
-            <td ng-bind="user.role">
-            </td>            
-            <td>
-                <input type="button" class="check buttons" ng-click="delUser(user.id);getUsers();" >
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-<form ng-submit="putUser(curUser);getUsers();">
-    <input type="text" ng-model="curUser.login"/>
-    <input type="password" ng-model="curUser.pass"/>
-    <select ng-model="curUser.role"><option value="0">user</option><option value="1">admin</option></select>
-    <input type="submit" value="submit"/>
-</form>
-
+        </li></ul>
+    <ul class="row l12">
+        <li ng-repeat="user in users| filter : Usearch | orderBy: UsortType: UsortReverse" >
+            <span class="col l1" ng-bind="user.id">
+            </span>
+            <span ng-bind="user.login"class="col l4" >
+            </span>
+            <span ng-bind="user.pass"class="col l4" >
+            </span>
+            <span ng-bind="user.is_deleted" class="col l1" >
+            </span>
+            <span ng-bind="user.role" class="col l1" >
+            </span>            
+            <span class="col l1" >
+                <button ng-click="delUser(user.id);getUsers();" class="btn-floating btn-small  light-blue darken-4"><i class="material-icons">check</i>
+                </button>
+            </span>
+        </li>
+    </ul>
+    <div class="row l12">
+        <span class="col l1">&nbsp;</span>
+        <form ng-submit="putUser(curUser);getUsers();">
+            <div class="input-field light-blue-text text-darken-4 col l4 offset-l2">
+                <input class="" id="user_name" type="text" ng-model="curUser.login" name="user_name"/>
+                <label for="user_name">Add username</label>
+            </div>
+            <div class="input-field light-blue-text text-darken-4 col l4">
+                <input type="password" ng-model="curUser.pass" id="user_pass" name="user_pass"/>
+                <label for="user_pass">Add userpass</label>
+            </div>
+            <select class="browser-default col l1 offset-l1" ng-model="curUser.role" class="input-field"><option value="0">user</option><option value="1">admin</option></select>
+            <span class=" col l1">
+                <button type="submit" value="submit" class="btn-floating btn-small light-blue darken-4"><i class="material-icons" style="float: right">add</i>
+                </button>
+            </span>
+        </form>
+    </div>
 </div>

@@ -1,42 +1,15 @@
-<div class="content" ng-controller="LoginController as loginCtrl">
-
-    <menu-directive></menu-directive>
-
-    <form name="loginForm"
-          ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
-
-        <!--<div ng-show="loginForm.login.$error.required" style="color:maroon" role="alert">-->
-            <!--<div >You did not enter a field</div>-->
-        <!--</div>-->
-
-        <div>
-        <label for="login">Login</label>
-        <input id="login"
-               name="login"
-               type="text"
-               ng-model="loginCtrl.login"
-               required
-                />
+<div class="login" ng-controller="LoginController as loginCtrl">
+    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.authUser(loginCtrl.login, loginCtrl.pass)" novalidate>
+        <div class="input-field col l6 light-blue-text text-darken-4">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="login" name="login" type="text" ng-model="loginCtrl.login" required/>
+            <label for="login">Login</label>
         </div>
-
-
-        <!--<div ng-show="loginForm.pass.$error.required" style="color:maroon" role="alert">-->
-            <!--<div >You did not enter a field</div>-->
-        <!--</div>-->
-
-
-        <div>
-        <label for="pass">Password</label>
-        <input id="pass"
-               name="pass"
-               type="password"
-               ng-model="loginCtrl.pass"
-               required
-        />
+        <div class="input-field col l6 light-blue-text text-darken-4">
+            <i class="material-icons prefix">fingerprint</i>
+            <input id="pass" name="pass" type="password" ng-model="loginCtrl.pass" required/>
+            <label for="pass">Password</label>
         </div>
-
-        <input type="submit" value="submit">
-
+        <button  class="btn light-blue darken-4 col l6 offset-l2" type="submit" value="submit"><i class="material-icons right">exit_to_app</i>Login</button>
     </form>
-
 </div>
