@@ -7,7 +7,10 @@ angular
                 var tc = this;
 
                 this.tasks = {};
-                this.users = {};
+                this.users = {
+                    id: 0,
+                    login: '***',
+                };
                 this.curTask = {};
 
                 //-----Disablers-------
@@ -35,7 +38,7 @@ angular
                             })
                             .error(function (data) {
                                 $state.go('login');
-                            });
+                            });                    
                 };
 
 

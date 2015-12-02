@@ -6,7 +6,7 @@
             <i class="material-icons right">exit_to_app</i>Logout
         </a>
     </div>
-    <div>        
+    <div style="border-bottom: 1px solid #01579b">        
         <ul class="row">
             <!--ng-hide="task.status == 0"-->
             <li class="col l12">
@@ -29,7 +29,7 @@
                     <select class="browser-default" ng-model="Tsearch.author" 
                             ng-options="user.id as user.login for user in taskCtrl.users" 
                             id="users">
-                        <option value="">***</option>
+                        <option ng-click="Tsearch.author=''" value="">***</option>
                     </select>
                 </span>
                 <!--            <td style="width:10%">
@@ -39,7 +39,7 @@
                             </td>-->
                 <span class="input-field light-blue-text text-darken-4 col l1">
                     <select class="browser-default" ng-model="Tsearch.assigner" ng-options="user.id as user.login for user in taskCtrl.users">
-                        <option value="">***</option>
+                        <option ng-click="Tsearch.assigner=''" value="">***</option>
                     </select>
                 </span>
                 <span class="input-field light-blue-text text-darken-4 col l1">
@@ -47,7 +47,9 @@
                     <label for="open_only">Show closed</label>
                 </span>
                 <span class="input-field light-blue-text text-darken-4 col l1">
-                    <label>Close task</label>
+                    <button ng-click="Tsearch={}" class="btn-floating btn-small light-blue darken-4">
+                        <i class="material-icons">refresh</i>
+                    </button>
                 </span>
                 <!--        <tr class="sort">
                             <td ng-click="TsortType = 'title';
