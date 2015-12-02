@@ -204,13 +204,11 @@ $app->post('/adduser', function (Request $request) use ($app) {
         return $app->json(array('error' => 'no admin'), 405);
     }
 
-    $user = $request->request->all();
-
     $user = array(
         'login' => htmlspecialchars($request->get('login')),
         'pass' => SHA1($request->get('pass')),
         'is_deleted' => 0,
-        'role' => 0,
+        'role' => $request->get('role'),
     );
 
     $result = $app['db']->insert('users', $user);

@@ -3,22 +3,26 @@
 angular
         .module('tt')
         .controller('AdminController', ['$scope', '$http', '$cookies', '$state', function ($scope, $http, $cookies, $state) {
-                this.isAuthUser = function () {
+                var ac = this;
 
+                this.isAuthUser = function () {
                     $http.get('api/checkadmin')
                             .success(function (data, status) {
 
                             })
                             .error(function (data) {
-                                $state.go('login');
+                                $state.go('tasks');
                             });
                 };
 
+                //-----Disablers------
                 this.isDisabled = function () {
-                    return (!$scope.curUser.login || !$scope.curUser.pass || !$scope.curUser.role);
+                    return (!ac.curUser.login || !ac.curUser.pass || !ac.curUser.role);
                 };
 
-                $scope.curUser = {};
+
+                //-----Main methods------
+                this.curUser = {};
 
                 this.getUsers = function () {
                     $http.get('/api/getusers')
@@ -31,6 +35,7 @@ angular
                             });
                 };
 
+
                 this.putUser = function (curUser) {
                     $http.post('/api/adduser', curUser)
                             .success(function (data, status) {
@@ -40,7 +45,7 @@ angular
                             .error(function (data) {
                                 $scope.error = data;
                             });
-                    this.curUser = {};
+                    ac.curUser = {};
                 };
 
                 this.delUser = function (current_id) {
@@ -54,4 +59,10 @@ angular
                             });
                 };
 
+                //-----Transforms------
+                this.asRole = function (role) {
+                    if (role == 0)
+                        return 'User';
+                    return 'Admin';
+                };
             }]);

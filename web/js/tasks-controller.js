@@ -10,7 +10,7 @@ angular
                 this.users = {};
                 this.curTask = {};
 
-                //-----Filters-------
+                //-----Disablers-------
 
                 this.isDisabled = function () {
                     return (!tc.curTask.title || !tc.curTask.author || !tc.curTask.assigner);
@@ -57,6 +57,7 @@ angular
                             });
                 };
 
+                //-----Transforms------
                 this.asUser = function (id) {
                     var user;
                     for (var i = 0; i < tc.users.length; i++) {
@@ -73,6 +74,9 @@ angular
                     else
                         return 'closed';
                 };
-
-
+                
+                this.asDate = function (date) {
+                   return new Date(date.replace(/-/g,"/"));
+                };
+                
             }]);

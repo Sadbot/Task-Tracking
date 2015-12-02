@@ -25,7 +25,7 @@
             </span>
             <span ng-bind="user.is_deleted" class="col l1" >
             </span>
-            <span ng-bind="user.role" class="col l1" >
+            <span ng-bind="admCtrl.asRole(user.role)" class="col l1" >
             </span>            
             <span class="col l1" >
                 <button ng-click="admCtrl.delUser(user.id);admCtrl.getUsers();" class="btn-floating btn-small  light-blue darken-4"><i class="material-icons">check</i>
@@ -34,18 +34,21 @@
         </li>
     </ul>
     <div class="row l12">
-        <span class="col l1">&nbsp;</span>
-        <form ng-submit="admCtrl.putUser(curUser);admCtrl.getUsers();">
+        <span class="col l1">&nbsp;</span>        
+        <form ng-submit="admCtrl.putUser(admCtrl.curUser);admCtrl.getUsers();">
             <div class="input-field light-blue-text text-darken-4 col l4 offset-l2">
-                <input class="" id="user_name" type="text" ng-model="curUser.login" name="user_name"/>
+                <input class="" id="user_name" type="text" ng-model="admCtrl.curUser.login" name="user_name"/>
                 <label for="user_name">Add username</label>
             </div>
             <div class="input-field light-blue-text text-darken-4 col l4">
-                <input type="password" ng-model="curUser.pass" id="user_pass" name="user_pass"/>
+                <input type="password" ng-model="admCtrl.curUser.pass" id="user_pass" name="user_pass"/>
                 <label for="user_pass">Add userpass</label>
             </div>
-            <select class="browser-default col l1 offset-l1" ng-model="curUser.role" ><option value="0">user</option><option value="1">admin</option></select>
-            <span class=" col l1">
+            <select class="browser-default col l1 offset-l1" ng-model="admCtrl.curUser.role">
+                <option value="0">user</option>
+                <option value="1">admin</option>
+            </select>
+            <span class="col l1">
                 <button type="submit" value="submit" class="btn-floating btn-small light-blue darken-4" ng-disabled="admCtrl.isDisabled()"><i class="material-icons" style="float: right">add</i>
                 </button>
             </span>
