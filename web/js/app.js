@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 angular
         .module('tt', ['ui.router', 'ngCookies'])

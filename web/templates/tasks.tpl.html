@@ -56,7 +56,7 @@
                 ng-show="task.status == 1 || showAll == 1"
                 class="col l12 highlight">
                 <span ng-bind="task.title" class="col l6 "></span>
-                <span class="col l2" ng-bind="taskCtrl.asDate(task.created) | date: 'dd MMM yyyy & nbsp; hh:mm'"></span>
+                <span class="col l2" ng-bind="taskCtrl.asDate(task.created) | date: 'dd MMM yyyy &nbsp; hh:mm'"></span>
                 <span class="col l1" ng-bind="taskCtrl.asUser(task.author)"></span>
                 <span class="col l1" ng-bind="taskCtrl.asUser(task.assigner)"></span>
                 <span class="col l1" ng-bind="taskCtrl.asStatus(task.status)"></span>
