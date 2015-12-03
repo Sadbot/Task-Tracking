@@ -2,6 +2,7 @@
     <div class="content" style="margin: 0px 22px 0px 22px;">
         <a class="btn light-blue darken-3 z-depth-2" ui-sref="tasks" >Tasks</a>
         <a class="btn light-blue darken-4 z-depth-1"  ui-sref="users" >Users</a>
+        
         <a class="btn light-blue darken-4 z-depth-1"  style="float:right" ui-sref="login" ng-click="loginCtrl.logOut()">
             <i class="material-icons right">exit_to_app</i>Logout
         </a>
@@ -10,28 +11,37 @@
         <ul class="row">
             <li class="col l12">
                 <span class="input-field light-blue-text text-darken-4 col l6">
-                    <input type='text' ng-model="Tsearch.title" id="title"/>
-                    <label for="title">Search by title</label>
+                    <input type='text' ng-model="taskCtrl.Tsearch.title" id="title" placeholder='Search by title'/>
+<!--                    <label for="title">Search by title</label>-->
                 </span>
                 <span class="input-field light-blue-text text-darken-4 col l2">
-                    <input type='text' ng-model="Tsearch.created" id="created"/>
-                    <label for="created">Search by date: YYYY-MM-DD</label>
+                    <input type='text' ng-model="taskCtrl.Tsearch.created" id="created" placeholder="Search by date: YYYY-MM-DD"/>
+<!--                    <label for="created">Search by date: YYYY-MM-DD</label>-->
                 </span>
-                <select class="browser-default input-field col l1" ng-model="Tsearch.author" 
+                <select class="browser-default input-field col l1" ng-model="taskCtrl.Tsearch.author" 
                         ng-options="user.id as user.login for user in taskCtrl.users" 
                         id="users">
-                    <option ng-click="Tsearch.author = ''" value="">***</option>
+                    <option ng-click="taskCtrl.Tsearch.author = ''" value="">***</option>
                 </select>
 
-                <select class="browser-default input-field col l1" ng-model="Tsearch.assigner" ng-options="user.id as user.login for user in taskCtrl.users">
-                    <option ng-click="Tsearch.assigner = ''" value="">***</option>
+                <select class="browser-default input-field col l1" ng-model="taskCtrl.Tsearch.assigner" ng-options="user.id as user.login for user in taskCtrl.users">
+                    <option ng-click="taskCtrl.Tsearch.assigner = ''" value="">***</option>
                 </select>
                 <span class="input-field light-blue-text text-darken-4 col l1">
                     <input type="checkbox" ng-model="showAll" ngTrueValue="0" naFalseValue="1" id="open_only">
                     <label for="open_only">Show closed</label>
                 </span>
                 <span class="input-field light-blue-text text-darken-4 col l1">
-                    <button ng-click="Tsearch = {}" class="btn-floating btn-small light-blue darken-4">
+                    <button  class="btn-floating btn-small light-blue darken-4"
+                            
+                        ui-sref="tasks({
+                            title   : taskCtrl.Tsearch.title, 
+                            date    : taskCtrl.Tsearch.created,
+                            author  : taskCtrl.Tsearch.author,
+                            assigner: taskCtrl.Tsearch.assigner
+                        })"
+                           
+                           >
                         <i class="material-icons">refresh</i>
                     </button>
                 </span>
@@ -52,7 +62,7 @@
     <div>
         <ul class="row highlight">
             <!--ng-hide="task.status == 0"-->
-            <li ng-repeat="task in taskCtrl.tasks| filter : Tsearch | orderBy: TsortType: TsortReverse" 
+            <li ng-repeat="task in taskCtrl.tasks| filter : taskCtrl.Tsearch | orderBy: TsortType: TsortReverse" 
                 ng-show="task.status == 1 || showAll == 1"
                 class="col l12 highlight">
                 <span ng-bind="task.title" class="col l6 "></span>
@@ -69,7 +79,7 @@
         </ul>
     </div>
     <div class="row">
-        <form ng-submit="taskCtrl.putTask(taskCtrl.curTask);taskCtrl.getTasks();" class="col l12">
+        <form ng-submit="taskCtrl.putTask(taskCtrl.curTask);" class="col l12">
             <span class="input-field light-blue-text text-darken-4 col l6">
                 <input type="text" ng-model="taskCtrl.curTask.title" id="addtask">
                 <label for="addtask">Add task title</label>
@@ -87,4 +97,6 @@
             </span>
         </form>
     </div>
+    {{taskCtrl.Tsearch}}
 </div>
+<a class="btn light-blue darken-4 z-depth-0" style="float: right">Last refresh: {{now | date:'dd MMM @HH:mm:ss'}}</a>

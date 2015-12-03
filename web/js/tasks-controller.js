@@ -2,15 +2,12 @@
 
 angular
         .module('tt')
-        .controller('TaskController', ['$http', '$state', 'LoginService', function ($http, $state, LoginService) {
+        .controller('TaskController', ['$scope','$http', '$state', 'LoginService', function ($scope,$http, $state, LoginService) {
 
                 var tc = this;
-
+                this.Tsearch = $state.params;
                 this.tasks = {};
-                this.users = {
-                    id: 0,
-                    login: '***',
-                };
+                this.users = {};
                 this.curTask = {};
 
                 //-----Disablers-------
@@ -81,5 +78,7 @@ angular
                 this.asDate = function (date) {
                    return new Date(date.replace(/-/g,"/"));
                 };
+                
+                $scope.now = new Date();
                 
             }]);

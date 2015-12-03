@@ -2,7 +2,9 @@
 
 angular
         .module('tt', ['ui.router', 'ngCookies'])
-        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+                $locationProvider.html5Mode(true);
                 $stateProvider
                         .state('login', {
                             url: "/login",
@@ -10,10 +12,16 @@ angular
                             controller: "LoginController",
                         })
                         .state('tasks', {
-                            url: "/tasks",
+                            url: "/tasks?:title&:created&:author&:assigner",
                             templateUrl: "templates/tasks.tpl.html",
                             controller: "TaskController",
-                            authenticate: true
+                            authenticate: true,
+                            /*params: {
+                             title:'',
+                             created:'',
+                             author:'',
+                             assigner:''
+                             }*/
                         })
                         .state('users', {
                             url: "/users",
@@ -25,4 +33,6 @@ angular
                 $urlRouterProvider.otherwise('/login');
 
 
-            }]);
+
+            }])
+        .run([function () {}]);

@@ -118,7 +118,7 @@ $app->get('/gettasks', function (Application $app) {
         return $app->json(array('error' => 'not authorized'), 405);
     }
 
-    $tasks = $app['db']->select('SELECT id,title,status,created,author,assigner from tasks');
+    $tasks = $app['db']->select('SELECT id,title,status,created,author,assigner from tasks');// where author=user or assigner=user
     $users = $app['db']->select('SELECT id, login, is_deleted from users');
 
     if (!$tasks and ! $users) {
